@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block form %}
+<form method="post">
+    {% csrf_token %}
+    <div class="container">
+        <br>
+        <div class="row">
+            <div class="col">
+                <h4 class="name">USERNAME.</h4>
+                <input type="text" name="username" class="form-control" placeholder="Username"
+                       aria-label="division" autocomplete="off" required>
+            </div>
+        </div>
+        <hr class="line">
+        <div class="row">
+            <div class="col">
+                <h4 class="name">PASSWORD.</h4>
+                <input type="password" name="password" class="form-control" placeholder="Password"
+                       aria-label="division" autocomplete="off" required>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+        <hr class="line">
+        <div class="row">
+            <div class="col">
+                <p class="message">
+                    To change password or to reset any information, contact the admin
+                </p>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

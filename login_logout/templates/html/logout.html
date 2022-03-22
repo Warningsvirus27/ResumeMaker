@@ -1,0 +1,34 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <meta name="description" content="">
+    <title>Logout!</title>
+
+    <link rel="stylesheet" href="{% static 'css/logout.css' %}"/>
+
+</head>
+<body>
+
+    <br><br>
+<div class="container">
+    <div class="column">
+        <div class="row">
+            <div class="col">
+                <br>
+                <h1>You have been successfully logged out.</h1>
+                <h2>Click <a href="{% url 'login' %}">here</a> to Sign In again</h2>
+                <br>
+                  <hr>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
