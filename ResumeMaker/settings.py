@@ -73,6 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ResumeMaker.wsgi.application'
 
+AUTH_USER_MODEL = 'login_logout.User'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

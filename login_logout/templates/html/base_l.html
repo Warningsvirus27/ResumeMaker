@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <title>{% block title %}{% endblock %}</title>
 
-    <link rel="stylesheet" href="{% static 'css/base.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/base_l.css' %}"/>
     {% block style %}
     {% endblock %}
 
@@ -18,6 +18,27 @@
 <body>
 
 <div class="label">
+    {% if messages %}
+    <br>
+
+    {% for message in messages %}
+
+    {% if message.tags == "error" %}
+               <div class="alert alert-danger" role="alert">
+                    {{ message }}
+               </div>
+    {% endif %}
+
+    {% if message.tags == "success" %}
+               <div class="alert alert-success" role="alert">
+                    {{ message }}
+               </div>
+    {% endif %}
+
+    {% endfor %}
+    <hr>
+    {% endif %}
+
     <div class="myDiv">
         {% block form %}
         {% endblock %}
