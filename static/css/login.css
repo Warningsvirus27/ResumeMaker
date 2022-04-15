@@ -1,42 +1,38 @@
-body{
-              background-color: rgba(25, 55, 18, .3);
-              background-portion:center;
-              background-size:cover;
-              font-family:sans-serif;
-              margin-top:40px;
-           }
-        .container {
-overflow: hidden;
-max-width : 70%;
-}
-div.label
-{
-   margin: 0;
-   width: 70%;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%)
-}
-div.myDiv {
-border: 1px outset black;
-background-color: rgba(52, 58, 64);
-text-align: left;
-bottom: 0px;
-width: 70%;
-margin: auto;
-margin-top: 1em;
-margin-bottom: 1em;
-box-shadow: rgba(0, 0, 0) 0px 25px 50px;
-}
+{% load static %}
+
 h4 {
   font-size: 1.1em;
-  color: white;
+  color: black;
 }
 .message{
-  color: white;
+  color: black;
 }
 .line{
-border-top: 1px dashed white;
+border: 3px rgba(3, 24, 46);
+}
+.container {
+    position: relative;
+    top: 20vh;
+    left: -20vw;
+    overflow: hidden;
+    width: 50vh;
+    height: 60vh;
+    box-shadow: 0 0 15px 5px rgb(31 73 125 / 80%);
+    border-radius: 2vh;
+    background-color: #ff5500;
+}
+#main{
+display:flex;
+float: left;
+}
+
+#login .one{
+position: relative;
+    width: 50vw;
+    height: 100vh;
+    left: -18vw;
+}
+
+.page_name{
+padding-top:10%;
 }

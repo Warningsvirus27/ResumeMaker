@@ -59,3 +59,6 @@ class User(AbstractBaseUser):
     @property
     def is_active(self):
         return self.active
+
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"

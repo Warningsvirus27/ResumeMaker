@@ -27,12 +27,20 @@ def login(request):
             messages.error(request, 'Please input your password')
             return redirect('login')
 
-        user = auth.authenticate(request, email=email, password=password)
+        # user = auth.authenticate(request, email=email, password=password)
+        try:
+            user = User.objects.get(email=email)
 
-        if user is not None:
-            auth.login(request, user)
-            return redirect('home')
-        else:
+            if user is not None:
+                user = auth.authenticate(request, email=email, password=password)
+                if user is not None:
+                    auth.login(request, user)
+                    return redirect('home')
+                else:
+                    messages.error(request, 'Wrong Password!!')
+                    messages.error(request, 'Please enter it again!!')
+                    return redirect('login')
+        except User.DoesNotExist as e:
             messages.error(request, 'User Does Not Exist!!')
             return render(request, 'html/login.html')
     else:
@@ -48,24 +56,34 @@ def forgot_password(request, email, index):
     index = int(index)
 
     if index == 1:
-        user = User.objects.get(email=email)
-        encoded_email = str(base64.b64encode(email.encode('ascii')))[2:-1]
-        link = f'{request.get_host()}/log/{encoded_email}/-1/forgot_password'
-        text = password_text(user.first_name, user.last_name, link)
+        try:
+            user = User.objects.get(email=email)
+            encoded_email = str(base64.b64encode(email.encode('ascii')))[2:-1]
+            link = f'{request.get_host()}/log/{encoded_email}/-1/forgot_password'
+            text = password_text(user.first_name, user.last_name, link)
 
-        msg = EmailMessage()
-        msg.set_content(text)
-        msg['Subject'] = "ResumeMaker Forgot Password"
-        msg['From'] = "howdoyoudothat27@gmail.com"
-        msg['To'] = email
+            msg = EmailMessage()
+            msg.set_content(text)
+            msg['Subject'] = "ResumeMaker Forgot Password"
+            msg['From'] = "howdoyoudothat27@gmail.com"
+            msg['To'] = email
 
-        server.send_message(msg)
-        messages.success(request, f'Email is successfully sent to {email}')
-        messages.success(request, 'Click on it to Set Password')
-        return redirect('login')
+            server.send_message(msg)
+            messages.success(request, f'Email is successfully sent to {email}')
+            messages.success(request, 'Click on it to Set Password')
+            return redirect('login')
+        except:
+            messages.error(request, "Something went wrong please try again!!")
+            messages.error(request, "We apologize for this inconvenience")
+            return redirect('login')
 
     if index == -1:
-        decoded_email = str(base64.b64decode(email))
+        try:
+            decoded_email = str(base64.b64decode(email))
+        except:
+            messages.error(request, "Invalid Web Url")
+            messages.error(request, "Please proceed again!!")
+            return redirect('login')
         return redirect(change_password, decoded_email[2:-1])
 
 
@@ -114,18 +132,18 @@ def register(request):
 
             text = registration_text(first_name, last_name, link)
 
-            try:
-                msg = EmailMessage()
-                msg.set_content(text)
-                msg['Subject'] = "ResumeMaker Registration"
-                msg['From'] = "howdoyoudothat27@gmail.com"
-                msg['To'] = email
+            # try:
+            msg = EmailMessage()
+            msg.set_content(text)
+            msg['Subject'] = "ResumeMaker Registration"
+            msg['From'] = "howdoyoudothat27@gmail.com"
+            msg['To'] = email
 
-                server.send_message(msg)
-                messages.success(request, f'Email is successfully sent to {email}')
-                messages.success(request, 'Click on it to Set Password')
-            except:
-                messages.error(request, 'Something went wrong please try again!')
+            server.send_message(msg)
+            messages.success(request, f'Email is successfully sent to {email}')
+            messages.success(request, 'Click on it to Set Password')
+            '''except:
+                messages.error(request, 'Something went wrong please try again!')'''
     return render(request, 'html/register.html')
 
 

@@ -1,23 +1,29 @@
-body{
-              background-color: rgba(25, 55, 18, .3);
-              background-portion:center;
-              background-size:cover;
-              font-family:sans-serif;
-              margin-top:40px;
-           }
-div.label
-{
-   margin: 0;
-   width: 70%;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%)
+#main{
+display:flex;
+float: left;
 }
-.container {
-overflow: hidden;
-max-width : 50%;
+
+#login .one{
+position: relative;
+    width: 28vw;
+    height: 100vh;
+    left: -11vw;
+}
+div.container {
+    position: relative;
+    top: 20vh;
+    left: -10vw;
+    overflow: hidden;
+    width: 50vw;
+    max-height: 55vh;
+    box-shadow: 0 0 15px 5px rgb(31 73 125 / 80%);
+    border-radius: 2vh;
+    //background-color: #ff5500;
+    background: -webkit-gradient(linear,right top,left, from(#b054a1), to(#6e9bdb)) fixed;
+     display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 h1 {
   font-size: 2.1em;

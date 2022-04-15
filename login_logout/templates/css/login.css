@@ -1,10 +1,34 @@
 h4 {
   font-size: 1.1em;
-  color: white;
+  color: black;
 }
 .message{
-  color: white;
+  color: black;
 }
 .line{
-border-top: 1px dashed white;
+border: 3px rgba(3, 24, 46);
+//border:4px dashed white;
+}
+.container {
+    position: relative;
+    top: 20vh;
+    left: -20vw;
+    overflow: hidden;
+    width: 60vh;
+    min-height: 55vh;
+    box-shadow: 0 0 15px 5px rgb(31 73 125 / 80%);
+    border-radius: 2vh;
+    //background-color: #ff5500;
+    background: -webkit-gradient(linear,right top,left, from(#b054a1), to(#6e9bdb)) fixed;
+}
+#main{
+display:flex;
+float: left;
+}
+
+#login .one{
+position: relative;
+    width: 50vw;
+    height: 100vh;
+    left: -18vw;
 }

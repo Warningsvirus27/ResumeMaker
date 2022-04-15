@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <meta name="description" content="">
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/base_l.css' %}"/>
+    {% block style %}
+    {% endblock %}
+
+</head>
+<body>
+<img class="wave" src="{% static 'img/wave.svg' %}">
+<div class="label">
+    {% if messages %}
+    <br>
+
+    {% for message in messages %}
+
+    {% if message.tags == "error" %}
+               <div class="alert alert-danger" role="alert">
+                    {{ message }}
+               </div>
+    {% endif %}
+
+    {% if message.tags == "success" %}
+               <div class="alert alert-success" role="alert">
+                    {{ message }}
+               </div>
+    {% endif %}
+
+    {% endfor %}
+    <hr>
+    {% endif %}
+
+    <div class="myDiv">
+        <div>
+            {% block page_name %}
+            {% endblock %}
+        </div>
+        {% block form %}
+        {% endblock %}
+    </div>
+
+</div>
+
+</body>
+</html>

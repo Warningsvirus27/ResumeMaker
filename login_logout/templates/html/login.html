@@ -7,47 +7,60 @@ Login
 {% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/login.css' %}" xmlns="http://www.w3.org/1999/html"
-      xmlns="http://www.w3.org/1999/html"/>
+<link rel="stylesheet" href="{% static 'css/login.css' %}"/>
 {% endblock %}
 
 {% block form %}
-<form method="post">
-    {% csrf_token %}
-    <div class="container">
-        <br>
-        <div class="row">
-            <div class="col">
-                <h4 class="name">EMAIL ID</h4>
-                <input type="text" name="email" class="form-control" placeholder="Email Id"
-                       aria-label="division" autocomplete="off" required>
+<div id="main">
+    <div id="login">
+        <img class="one" src="{% static 'img/sapiens.svg' %}">
+    </div>
+
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="container">
+            <br>
+            <div class="row">
+                <h1>
+                    SIGN IN
+                </h1>
+                <hr style="border:3px solid white;">
             </div>
-        </div>
-        <hr class="line">
-        <div class="row">
-            <div class="col">
-                <h4 class="name">PASSWORD.</h4>
-                <input type="password" name="password" class="form-control" placeholder="Password"
-                       aria-label="division" autocomplete="off">
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col">
-                <input type="checkbox" id="check" name="forgot">
-                <label for="check" class="message"> Forgot Password</label>
-                <br>
-            </div>
-        </div>
-        <hr class="line">
-        <div class="row">
-            <div class="col">
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="row">
+                <div class="col">
+                    <h4 class="name">EMAIL ID</h4>
+                    <input type="text" name="email" class="form-control" placeholder="Email Id"
+                           aria-label="division" autocomplete="off" required>
                 </div>
             </div>
+            <hr class="line">
+            <div class="row">
+                <div class="col">
+                    <h4 class="name">PASSWORD.</h4>
+                    <input type="password" name="password" class="form-control" placeholder="Password"
+                           aria-label="division" autocomplete="off">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <input type="checkbox" id="check" name="forgot">
+                    <label for="check" class="message"> Forgot Password</label>
+                    <br>
+                </div>
+            </div>
+            <hr class="line">
+            <div class="row">
+                <div class="col">
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <br>
         </div>
-        <br>
-    </div>
-</form>
+    </form>
+
+</div>
 {% endblock %}
