@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils import timezone
 
 
@@ -24,13 +24,14 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, first_name, last_name, superuser=True, staff=True)
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     superuser = models.BooleanField(default=False)
     first_name = models.CharField(max_length=255, null=True)
     last_name = models.CharField(max_length=255, null=True)
     staff = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
+    image = models.ImageField(null=True, blank=True, upload_to='profile_images')
     date_joined = models.DateTimeField(default=timezone.now, editable=True)
 
     USERNAME_FIELD = 'email'

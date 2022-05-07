@@ -15,3 +15,7 @@ def template_edit(request, template_id=None):
     data = {'mail': user.get_username(), 'name': user.get_full_name()}
 
     return render(request, 'html/srt-resume.html', data)
+
+
+def create_resume(request):
+    return render(request, 'html/create_resume.html')
