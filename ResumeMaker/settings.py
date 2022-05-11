@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'resume',
     'login_logout',
+    'ckeditor',
     'django_cleanup.apps.CleanupConfig',
     'django.contrib.admin',
     'django.contrib.auth',

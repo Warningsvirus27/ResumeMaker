@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <!-- CSS only -->
@@ -19,8 +19,12 @@
 
     {% block style %}
     {% endblock %}
+
+    {% block head_content %}
+    {% endblock %}
 </head>
 <body>
+
 
 <nav class="navbar navbar-expand-md bg-light navbar-light">
   <a class="navbar-brand" href="#">Hello {{user.get_full_name}}</a>
@@ -30,38 +34,39 @@
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav ms-auto">
       <li class="nav-item">
-        <a class="nav-link">
-            <input type="checkbox" checked="checked" onclick="return false">
+        <a class="nav-link" {% if personal_info_tick %}
+           href="{% url 'create_resume' resume_id=resume field='personal_info' %}" {% endif %} >
+            <input type="checkbox" {% if personal_info_tick %} checked="checked" {% endif %} />
             Personal Info
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link">
-            <input type="checkbox" checked="checked" onclick="return false">
+            <input type="checkbox" {% if experience_tick %} checked="checked" {% endif %} >
             Experience
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link">
-            <input type="checkbox" checked="checked" onclick="return false">
+            <input type="checkbox" {% if education_tick %} checked="checked" {% endif %} onclick="return false">
             education
         </a>
       </li>
         <li class="nav-item">
         <a class="nav-link">
-            <input type="checkbox" checked="checked" onclick="return false">
+            <input type="checkbox" {% if skills_tick %} checked="checked" {% endif %} onclick="return false">
             skills
         </a>
       </li>
         <li class="nav-item">
         <a class="nav-link">
-            <input type="checkbox" checked="checked" onclick="return false">
+            <input type="checkbox" {% if summary_tick %} checked="checked" {% endif %} onclick="return false">
             summary
         </a>
       </li>
         <li class="nav-item">
         <a class="nav-link">
-            <input type="checkbox" checked="checked" onclick="return false">
+            <input type="checkbox" {% if review_tick %} checked="checked" {% endif %} onclick="return false">
             review and download
         </a>
       </li>
@@ -97,6 +102,7 @@
 </div>
 
 {% block script %}
+<script type="text/javascript" src="{% static 'js/create_resume.js' %}"></script>
 {% endblock %}
 </body>
 </html>

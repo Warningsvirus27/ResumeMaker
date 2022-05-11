@@ -3,22 +3,8 @@ position:absolute;
 top:0;
 left:20vw;
 text-align: left;
-width: 90%;
+width: 70%;
 margin:0;
-}
-.container {
-    position: relative;
-    top: 10vh;
-    left: -15vw;
-    overflow: hidden;
-    float: left;
-    //width: 60vh;
-    width: 70%;
-    min-height: 55vh;
-    //box-shadow: 0 0 15px 5px rgb(31 73 125 / 80%);
-    //border-radius: 2vh;
-    //background-color: #ff5500;
-    //background: -webkit-gradient(linear,right top,left, from(#b054a1), to(#6e9bdb)) fixed;
 }
 h4 {
   font-size: 1.1em;
@@ -44,15 +30,6 @@ h4 {
 .navbar-brand
 {
 padding-left:1rem;
-}
-input[type="checkbox"]{
-    width: 15px;
-    outline: 2px dashed green;
-    color: green;
-    margin-right:5px;
-}
-#shadow-checkbox{
-    box-shadow: inset 0 1px 3px rgba(0,0,0,.3);
 }
 .content {
   padding: 0 18px;
