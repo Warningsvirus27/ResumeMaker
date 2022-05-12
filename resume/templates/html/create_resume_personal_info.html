@@ -31,7 +31,9 @@
                 </div>
                 {% if personal_info %}
                 <div class="col">
+                    {% if personal_info.image %}
                     <img src="media/{{ personal_info.image }}" style="width:100px">
+                    {% endif %}
                 </div>
                 {% endif %}
             </div>

@@ -1,14 +1,28 @@
-var coll = document.getElementsByClassName("collapsible");
-var i;
+function myFunction(current_element, name, target, placeholder="Custom Degree") {
+  //var x = document.getElementById("mySelect").value;
+  var x = current_element.value;
 
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
-    }
-  });
+  if (x == 'Custom')
+  {
+
+      var new_input = document.createElement("input")
+      new_input.setAttribute('type', 'text');
+      new_input.setAttribute('name', name);
+      new_input.setAttribute('id', name);
+      new_input.setAttribute('class', 'form-control')
+      new_input.setAttribute('placeholder', placeholder);
+     new_input.setAttribute('aria-label', 'division');
+     new_input.setAttribute('autocomplete','off');
+     new_input.setAttribute('style', 'margin-top:10px;')
+      document.getElementById(target).appendChild(new_input);
+   }
+   else
+   {
+
+   input_tag = document.getElementById(name)
+   if (input_tag)
+   {
+        input_tag.remove();
+   }
+   }
 }

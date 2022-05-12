@@ -64,13 +64,15 @@ class Experience(models.Model):
 
 class Education(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+    school_name = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=255)
     degree = models.CharField(max_length=255)
     study_field = models.CharField(max_length=255)
-    graduation_month = models.CharField(max_length=255)
-    graduation_year = models.IntegerField()
+    graduation_month = models.CharField(max_length=255, null=True, blank=True)
+    graduation_year = models.IntegerField(null=True, blank=True)
     percentage = models.CharField(max_length=20)
+    suffix = models.CharField(max_length=20)
 
     def __str__(self):
         return f"{self.resume} {self.degree}-{self.study_field}"
@@ -79,10 +81,10 @@ class Education(models.Model):
 class Project(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
-    month_start = models.CharField(max_length=255)
-    year_start = models.IntegerField()
-    month_end = models.CharField(max_length=255)
-    year_end = models.IntegerField()
+    month_start = models.CharField(max_length=255, blank=True, null=True)
+    year_start = models.IntegerField(null=True, blank=True)
+    month_end = models.CharField(max_length=255, blank=True, null=True)
+    year_end = models.IntegerField(null=True, blank=True)
     description = models.TextField()
 
     def __str__(self):
