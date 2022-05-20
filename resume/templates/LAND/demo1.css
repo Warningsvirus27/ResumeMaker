@@ -1,0 +1,239 @@
+.bar {
+    border-radius: 10px;
+    height: 7px;
+    width: 48px;
+    background: rgb(205, 192, 192);
+    margin: 3px;
+}
+
+.nav {
+    position: relative;
+    top: 10vh;
+    margin-top: 0px;
+    padding: 10px;
+    display: none;
+    color: aqua;
+    list-style: none;
+    width: 0;
+    overflow: hidden;
+    transition: color 1s, width 1s linear;
+}
+
+.nav li {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 5% 6%;
+    transition: 0.3s;
+}
+
+.nav li:before {
+    content: "";
+    position: absolute;
+    right: 200%;
+    top: 0;
+    width: 30%;
+    height: 2px;
+    background: red;
+    transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.nav li:after {
+    content: "";
+    position: absolute;
+    left: 200%;
+    bottom: 0;
+    width: 30%;
+    height: 2px;
+    background: rgb(6, 48, 165);
+    transition: 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.nav li:hover {
+    color: blueviolet;
+}
+
+.nav li:hover:before {
+    right: 10%;
+}
+
+.nav li:hover:after {
+    left: 10%;
+}
+
+.change .bar {
+    background: rgb(19, 18, 18);
+    transition: 0.5s ease;
+}
+
+.change #bar2 {
+    transform: translatex(30px);
+    background: transparent;
+}
+
+.change #bar1 {
+    transform: translatey(10px) rotate(45deg);
+}
+
+.change #bar3 {
+    transform: translatey(-10px) rotate(-45deg);
+}
+
+.change1 {
+    margin: 0px;
+    width: 200px;
+    display: block;
+    color: black;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.menubar,
+.menubg {
+    right: 3vw;
+    top: 3vh;
+    position: absolute;
+}
+
+.menubar {
+    z-index: 4;
+}
+
+.menubg {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    margin: 0px;
+    padding: 0px;
+    height: 0vw;
+    width: 0vw;
+    background: rgb(208, 220, 245);
+    z-index: 100;
+    transition: width 0.3s, height 0.3s ease;
+}
+
+.changebg {
+    z-index: 3;
+    height: 100%;
+    width: 40%;
+    border-radius: 50px;
+}
+
+#menu {
+    position: absolute;
+    right: 0;
+}
+
+span {
+    color: red;
+    font-size: 60px;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    overflow: hidden;
+}
+
+h1 {
+    position: relative;
+    margin: 0;
+    z-index: 1;
+    overflow: hidden;
+    margin: 5% 5%;
+    margin-top: 0;
+}
+
+h1:before {
+    content: '';
+    position: absolute;
+    left: 90%;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, transparent 0%, white 5%, white 100%);
+    animation: animate 2s linear infinite alternate;
+    z-index: 2;
+}
+
+@keyframes animate {
+    0% {
+        left: 100%;
+    }
+
+    100% {
+        left: 3%;
+    }
+}
+
+.celebration,
+.celebration1 {
+    width: 20%;
+    margin: 0% 0%;
+}
+
+.celebration1 {
+    float: right;
+    transform: scaleX(-1);
+}
+
+#content_box {
+    margin: 7% 0%;
+    background-color: rgb(156, 156, 243);
+    margin-bottom: 0%;
+    padding: 4% 0%;
+    overflow: hidden;
+}
+
+.art {
+    display: flex;
+    flex-flow: row;
+    margin: 5% 5%;
+}
+
+.art img,
+.art_left img {
+    width: 30%;
+}
+
+.art_left {
+    display: flex;
+    margin: 3% 3%;
+}
+
+p {
+    text-align: center;
+    font-weight: bold;
+    line-height: 150%;
+}
+
+.template_box {
+    display: flex;
+    flex-direction: column;
+    background: conic-gradient(aqua 0deg 90deg, rgb(197, 189, 132) 90deg 270deg, aqua 270deg 360deg);
+    margin: 3% 0%;
+
+}
+
+.template1 {
+    text-align: center;
+    background-color: rgb(227, 234, 240);
+    width: 50vw;
+    height: 50vh;
+    border: 2px solid black;
+    margin: 3% 25%;
+    z-index: 2;
+}
+
+@media (min-width:1100px) {
+    .bar {
+        height: 7px;
+        width: 60px;
+    }
+
+    .change1 {
+        position: relative;
+        right: 44%;
+
+    }
+    #menu{
+        right:29px;
+    }
+}

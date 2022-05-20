@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main page</title>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <link rel="stylesheet" href="{% static 'demo1.css' %}">
+</head>
+
+<body id="b">
+    <div id="main_bg">
+        <div class="topnav">
+            <img src="{% static 'pic1.png' %}" alt="">
+            <div id="menubar" class="menubar">
+                <div id="menu" onclick="myFunction()">
+                    <div id="bar1" class="bar"></div>
+                    <div id="bar2" class="bar"></div>
+                    <div id="bar3" class="bar"></div>
+                </div>
+                <ul id="nav" class="nav">
+                    <li class="ho">home</li>
+                    <li class="ho">contact</li>
+                    <li class="ho">more</li>
+                    <li class="ho">about us</li>
+                </ul>
+            </div>
+            <div id="menubg" class="menubg"></div>
+
+
+        </div>
+        <img class="wave" src="{% static 'wave.svg' %}" alt="">
+    </div>
+
+    <img class="celebration" src="{% static 'celebration.gif' %}" alt="">
+
+    <img class="celebration1" src="{% static 'celebration.gif' %}" alt="">
+
+
+    <center>
+        <h1><span>W</span>ELCOME <span>R</span>ESUME <span>M</span>AKER</h1>
+    </center>
+    <div id="content_box">
+        <div data-aos="fade-left" class="art">
+            <img src="{% static 'post1.svg' %}" alt="">
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Libero delectus iste autem corrupti
+                consequuntur
+                minus velit eveniet impedit sequi doloribus, sunt odit, expedita soluta quibusdam enim eum rerum
+                voluptatem.
+                Distinctio.</p>
+        </div>
+        <div data-aos="fade-right" class="art_left">
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Libero delectus iste autem corrupti
+                consequuntur
+                minus velit eveniet impedit sequi doloribus, sunt odit, expedita soluta quibusdam enim eum rerum
+                voluptatem.
+                Distinctio.</p>
+                <img src="{% static 'post2.svg' %}" alt="">
+        </div>
+        <div data-aos="fade-left" class="art">
+            <img src="{% static 'add.svg' %}" alt="">
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Libero delectus iste autem corrupti
+                consequuntur
+                minus velit eveniet impedit sequi doloribus, sunt odit, expedita soluta quibusdam enim eum rerum
+                voluptatem.
+                Distinctio.</p>
+        </div>
+    </div>
+    <div class="template_box">
+        <div class="template1">
+            template sample
+        </div>
+    </div>
+    <div class="footer">
+
+    </div>
+    <script src="{% static 'demo.js' %}"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            offset: 170,
+            duration: 900
+        }
+        );
+    </script>
+</body>
+
+</html>

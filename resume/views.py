@@ -1,9 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from django.contrib import auth
 from django.contrib.auth import get_user_model
-from .models import *
-from django.contrib import messages
-from datetime import date
 from .helper import *
 
 
@@ -53,76 +49,75 @@ def create_resume(request, resume_id=None, field=None):
 
             elif field == "experience":
                 resume_instance = get_resume_instance(request, resume_id)
-                try:
-                    content['experiences'] = Experience.objects.filter(resume=resume_instance)
-                    if len(content['experiences']) == 0:
-                        content['count'] = 1
-                    else:
-                        content['count'] = len(content['experiences']) + 1
-                    PersonalInformation.objects.get(resume=resume_instance)
-                    content['personal_info_tick'] = 1
-                except PersonalInformation.DoesNotExist:
-                    pass
+                content['experiences'] = Experience.objects.filter(resume=resume_instance)
+                if len(content['experiences']) == 0:
+                    content['count'] = 1
+                else:
+                    content['count'] = len(content['experiences']) + 1
+                content.update(get_models_tick(request, resume_id))
+
                 return render(request, 'html/create_resume_experience.html', content)
 
             elif field == "education":
                 resume_instance = get_resume_instance(request, resume_id)
-                try:
-                    content['educations'] = Education.objects.filter(resume=resume_instance)
-                    if len(content['educations']) == 0:
-                        content['count'] = 1
-                    else:
-                        content['count'] = len(content['educations']) + 1
-                    PersonalInformation.objects.get(resume=resume_instance)
-                    content['personal_info_tick'] = 1
-                except PersonalInformation.DoesNotExist:
-                    pass
-                if Experience.objects.filter(resume=resume_instance):
-                    content['experience_tick'] = 1
+                content['educations'] = Education.objects.filter(resume=resume_instance)
+                if len(content['educations']) == 0:
+                    content['count'] = 1
+                else:
+                    content['count'] = len(content['educations']) + 1
+                content.update(get_models_tick(request, resume_id))
+
                 return render(request, 'html/create_resume_education.html', content)
 
             elif field == "projects":
                 resume_instance = get_resume_instance(request, resume_id)
-                try:
-                    content['projects'] = Project.objects.filter(resume=resume_instance)
-                    if len(content['projects']) == 0:
-                        content['count'] = 1
-                    else:
-                        content['count'] = len(content['projects']) + 1
-                    PersonalInformation.objects.get(resume=resume_instance)
-                    content['personal_info_tick'] = 1
-                except PersonalInformation.DoesNotExist:
-                    pass
-                if Experience.objects.filter(resume=resume_instance):
-                    content['experience_tick'] = 1
-                if Education.objects.filter(resume=resume_instance):
-                    content['education_tick'] = 1
+                content['projects'] = Project.objects.filter(resume=resume_instance)
+                if len(content['projects']) == 0:
+                    content['count'] = 1
+                else:
+                    content['count'] = len(content['projects']) + 1
+                content.update(get_models_tick(request, resume_id))
+
                 return render(request, 'html/create_resume_projects.html', content)
 
             elif field == "technical_skills":
+                content['counter'] = [1, 2, 3]
                 resume_instance = get_resume_instance(request, resume_id)
-                try:
-                    content['technical_skills'] = TechnicalSkills.objects.filter(resume=resume_instance)
-                    if len(content['technical_skills']) == 0:
-                        content['count'] = 1
-                    else:
-                        content['count'] = len(content['technical_skills']) + 1
-                    PersonalInformation.objects.get(resume=resume_instance)
-                    content['personal_info_tick'] = 1
-                except PersonalInformation.DoesNotExist:
-                    pass
-                if Experience.objects.filter(resume=resume_instance):
-                    content['experience_tick'] = 1
-                if Education.objects.filter(resume=resume_instance):
-                    content['education_tick'] = 1
-                if Project.objects.filter(resume=resume_instance):
-                    content['project_tick'] = 1
+                content['tech_skills'] = TechnicalSkills.objects.filter(resume=resume_instance)
+                if len(content['tech_skills']) == 0:
+                    content['count'] = 1
+                else:
+                    content['count'] = len(content['tech_skills']) + 1
+                content.update(get_models_tick(request, resume_id))
+
                 return render(request, 'html/create_resume_technical_skills.html', content)
 
-            elif field == "summary":
-                return render(request, 'html/create_resume_summary.html', content)
-            elif field == "review":
-                return render(request, 'html/create_resume_review.html', content)
+            elif field == "soft_skills":
+                content['counter'] = [1, 2, 3]
+                resume_instance = get_resume_instance(request, resume_id)
+                content['soft_skills'] = SoftSkills.objects.filter(resume=resume_instance)
+                if len(content['soft_skills']) == 0:
+                    content['count'] = 1
+                else:
+                    content['count'] = len(content['soft_skills']) + 1
+                content.update(get_models_tick(request, resume_id))
+
+                return render(request, 'html/create_resume_soft_skills.html', content)
+
+            elif field == "custom":
+                resume_instance = get_resume_instance(request, resume_id)
+                content['custom_fields'] = CustomField.objects.filter(resume=resume_instance)
+                if len(content['custom_fields']) == 0:
+                    content['count'] = 1
+                else:
+                    content['count'] = len(content['custom_fields']) + 1
+                content.update(get_models_tick(request, resume_id))
+            elif field == 'view_template':
+                content.update(get_models_tick(request, resume_id))
+
+                return render(request, 'html/template_html.html', content)
+
+            return render(request, 'html/create_resume_custom.html', content)
 
         if request.method == "POST":
             if field == "personal_info":
@@ -140,10 +135,14 @@ def create_resume(request, resume_id=None, field=None):
             elif field == "technical_skills":
                 redirect_field = get_technical_skills(request, resume_id)
                 return redirect(create_resume, resume_id, redirect_field)
-            elif field == "summary":
-                get_summary(request, template_id)
-            elif field == "review":
-                get_review(request, template_id)
+            elif field == "soft_skills":
+                redirect_field = get_soft_skills(request, resume_id)
+                return redirect(create_resume, resume_id, redirect_field)
+            elif field == "custom":
+                redirect_field = get_custom(request, resume_id)
+                if redirect_field == 'view_template':
+                    return redirect('view_template', resume_id)
+                return redirect(create_resume, resume_id, redirect_field)
     else:
         return render(request, 'html/error_page.html')
 
@@ -166,12 +165,16 @@ def get_personal_info(request, resume):
         phone_number = int(request.POST.get('phone_number'))
         image = request.FILES.get('image')
         summary = request.POST.get('summary').strip()
+        img_available = request.POST.get('img_available')
 
         resume_instance = get_resume_instance(request, resume)
 
         try:
             personal_info_model = PersonalInformation.objects.get(resume=resume_instance)
-            personal_info_model.image = image
+            if not image and img_available:
+                pass
+            else:
+                personal_info_model.image = image
             personal_info_model.first_name = first_name
             personal_info_model.last_name = last_name
             personal_info_model.address = address
@@ -212,6 +215,15 @@ def get_experience(request, resume):
             current_date = date.today()
             month_end = current_date.strftime('%B')
             year_end = current_date.year
+
+        if month_start and year_start and month_end and year_end:
+            pass
+        elif month_start or year_start or month_end or year_end:
+            messages.error(request, "please input all Start Date-Year and Ending Date-Year")
+            messages.error(request, "Single input will not be considered!!")
+            return 'experience'
+        else:
+            month_start, year_start, month_end, year_end = None, None, None, None
 
         resume_instance = get_resume_instance(request, resume)
 
@@ -269,9 +281,22 @@ def get_education(request, resume):
         add_new = request.POST.get('add_new')
         delete = request.POST.get('delete')
 
+        if not degree:
+            messages.error(request, "Please Input degree")
+            return 'education'
+
         if presently_working:
             graduation_month = None
             graduation_year = None
+
+        if graduation_month and graduation_year:
+            pass
+        elif graduation_month or graduation_year:
+            messages.error(request, "please input both Month and Year")
+            messages.error(request, "Single input will not be considered!!")
+            return 'experience'
+        else:
+            graduation_month, graduation_year = None, None
 
         resume_instance = get_resume_instance(request, resume)
         try:
@@ -319,6 +344,15 @@ def get_projects(request, resume):
             month_end = None
             year_end = None
 
+        if month_start and year_start and month_end and year_end:
+            pass
+        elif month_start or year_start or month_end or year_end:
+            messages.error(request, "please input All Start Date-Year and Ending Date-Year")
+            messages.error(request, "Single input will not be considered!!")
+            return 'experience'
+        else:
+            month_start, year_start, month_end, year_end = None, None, None, None
+
         resume_instance = get_resume_instance(request, resume)
 
         try:
@@ -347,11 +381,17 @@ def get_projects(request, resume):
 
 def get_technical_skills(request, resume):
     if request.method == "POST":
-        skill_name = request.POST.get('skill_name')
+        skill_name = request.POST.get('name').strip().capitalize()
         level = request.POST.get('level')
         project_instance = request.POST.get('current')
         add_new = request.POST.get('add_new')
         delete = request.POST.get('delete')
+        new = request.POST.get('new')
+        if new:
+            data_dict = {'inp1': [request.POST.get('name1'), request.POST.get('level1')],
+                         'inp2': [request.POST.get('name2'), request.POST.get('level2')],
+                         'inp3': [request.POST.get('name3'), request.POST.get('level3')],
+                         }
 
         resume_instance = get_resume_instance(request, resume)
 
@@ -364,8 +404,14 @@ def get_technical_skills(request, resume):
                 technical_skills_model.level = level
                 technical_skills_model.save()
         except TechnicalSkills.DoesNotExist:
-            technical_skills_model = TechnicalSkills(resume=resume_instance, skill_name=skill_name, level=level)
-            technical_skills_model.save()
+            if new:
+                for key, value in data_dict.items():
+                    if value[0]:
+                        technical_skills_model = TechnicalSkills(resume=resume_instance, skill_name=value[0], level=value[1])
+                        technical_skills_model.save()
+            else:
+                technical_skills_model = TechnicalSkills(resume=resume_instance, skill_name=skill_name, level=level)
+                technical_skills_model.save()
 
         if add_new or delete:
             return 'technical_skills'
@@ -373,5 +419,92 @@ def get_technical_skills(request, resume):
             return 'soft_skills'
 
 
-def get_summary(request, template_id): pass
-def get_review(request, template_id): pass
+def get_soft_skills(request, resume):
+    if request.method == "POST":
+        skill_name = request.POST.get('name').strip().capitalize()
+        description = request.POST.get('description').strip().capitalize()
+        project_instance = request.POST.get('current')
+        add_new = request.POST.get('add_new')
+        delete = request.POST.get('delete')
+        new = request.POST.get('new')
+        if new:
+            data_dict = {'inp1': [request.POST.get('name1'), request.POST.get('description1')],
+                         'inp2': [request.POST.get('name2'), request.POST.get('description2')],
+                         'inp3': [request.POST.get('name3'), request.POST.get('description3')],
+                         }
+
+        resume_instance = get_resume_instance(request, resume)
+
+        try:
+            soft_skills_model = SoftSkills.objects.get(id=project_instance)
+            if delete:
+                soft_skills_model.delete()
+            else:
+                soft_skills_model.skill_name = skill_name
+                soft_skills_model.description = description
+                soft_skills_model.save()
+        except SoftSkills.DoesNotExist:
+            if new:
+                for key, value in data_dict.items():
+                    if value[0]:
+                        soft_skills_model = SoftSkills(resume=resume_instance, skill_name=value[0],
+                                                       description=value[1])
+                        soft_skills_model.save()
+            else:
+                soft_skills_model = SoftSkills(resume=resume_instance, skill_name=skill_name,
+                                               description=description)
+                soft_skills_model.save()
+
+        if add_new or delete:
+            return 'soft_skills'
+        else:
+            return 'custom'
+
+
+def get_custom(request, resume):
+    if request.method == "POST":
+        field = request.POST.get('field').strip().capitalize()
+        header = request.POST.get('header').strip().capitalize()
+        month = request.POST.get('month')
+        year = request.POST.get('year')
+        description = request.POST.get('description').strip().capitalize()
+        project_instance = request.POST.get('current')
+        add_new = request.POST.get('add_new')
+        delete = request.POST.get('delete')
+
+        resume_instance = get_resume_instance(request, resume)
+
+        try:
+            custom_field_model = CustomField.objects.get(id=project_instance)
+            if delete:
+                custom_field_model.delete()
+            else:
+                custom_field_model.field_title = field
+                custom_field_model.header = header
+                custom_field_model.description = description
+                custom_field_model.month = month
+                custom_field_model.year = year
+                custom_field_model.save()
+        except CustomField.DoesNotExist:
+            custom_field_model = CustomField(resume=resume_instance, field_title=field, header=header,
+                                             description=description, month=month, year=year)
+            custom_field_model.save()
+
+        if add_new or delete:
+            return 'custom'
+        else:
+            return 'view_template'
+
+
+def template(request, resume=None):
+    content = get_models_data(request, resume)
+    content['qr_code'] = get_rq_code_svg(request.user.get_username())
+    return render(request, 'resume/html/first_temp.html', content)
+
+
+def document_check(request, requester=None, user=None):
+    if requester and user:
+        pass
+    else:
+        messages.error(request, 'Something went wrong Please try again!!')
+        return redirect('home')

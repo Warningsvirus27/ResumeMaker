@@ -1,0 +1,101 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+    max-height: max-content;
+}
+
+#main {
+    position: relative;
+    width: 70vw;
+    min-height: 90vh;
+    max-height: min-content;
+    background-color: rgb(225, 255, 245);
+    border: 2px solid black;
+    overflow: hidden;
+}
+h3 {
+    margin-top: 5%;
+    margin-left: 3%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.clip {
+    position: absolute;
+    right: -15%;
+    top: -15%;
+    width: 60%;
+    height: 50%;
+    border-radius: 50%;
+    background-color: black;
+}
+
+.clip2 {
+    position: absolute;
+    top: 15%;
+    left: 48%;
+    min-width: 45%;
+    max-width: max-content;
+    min-height: 30%;
+    max-height: max-content;
+    background-color: aqua;
+}
+
+.clip2 h4 {
+    text-align: center;
+    margin-top: 3%;
+}
+
+#detail {
+    margin-top: 10%;
+}
+
+#detail li {
+    margin-top: 1.6%;
+    margin-left: 5%;
+    font-size: 80%;
+    font-weight: bold;
+}
+
+#upper {
+    height:50vh;
+}
+
+#lower h4 {
+    margin-left: 5%;
+}
+
+#lower div {
+    margin-bottom: 4%;
+    margin-left: 3%;
+    height: 18vh;
+    width: 50%;
+}
+
+#lower .h {
+    margin-left: 2%;
+    background-color: green;
+    width: 90%;
+    height: 1px;
+}
+#skill .skills{
+    margin-bottom: 4%;
+    width: 90%;
+    background-color: rgb(169, 170, 167);
+    border-radius: 7px;
+    height: 10px;
+}
+#skill .skills_g1{
+    margin-left: -1%;
+    height: 100%;
+    width: 70%;
+    background-color: yellow;
+}

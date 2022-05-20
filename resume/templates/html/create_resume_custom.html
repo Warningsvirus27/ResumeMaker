@@ -1,0 +1,202 @@
+{% extends 'html/create_resume_base.html' %}
+{% load static %}
+
+{% block title %}
+    Custom-field
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/create_resume_skills.css' %}">
+{% endblock %}
+
+{% block head_content %}
+{% endblock %}
+
+{% block form %}
+        <div class="container">
+            <br>
+            <div class="row">
+                <div class="col">
+                <h1>
+                    ADD CUSTOM FIELD.
+                </h1>
+                <p>Add any Custom field, if any.
+                    If you don't want to add any field, kindly <b>skip</b> this part.</p>
+            </div>
+            </div>
+            <hr style="border: 2px dashed black;">
+
+
+            {% for field in custom_fields %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        <h4 class="name">FIELD TITLE</h4>
+                        <input type="text" name="field" class="form-control" placeholder="eg.Accomplishment"
+                                           aria-label="division" autocomplete="off"
+                                           {% if field %} value="{{ field.field_title }}" {% endif %} required>
+                    </div>
+                </div>
+                <br>
+            <div class="row">
+                    <div class="col">
+                        <h4 class="name">TITLE</h4>
+                        <input type="text" name="header" class="form-control" placeholder="eg. Research Paper"
+                                           aria-label="division" autocomplete="off"
+                                           {% if field %} value="{{ field.header }}" {% endif %} required>
+                    </div>
+                    <div class="col">
+                        <h4 class="name">DESCRIPTION</h4>
+                        <input type="text" name="description" class="form-control" placeholder="Describe it"
+                                           aria-label="division" autocomplete="off"
+                               {% if field %} value="{{ field.description }}" {% endif %} required>
+                    </div>
+                <div class="col">
+                    <h4 class="name">Month</h4>
+                    <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01" name="month">
+                                            <option
+                                                  {% if not field %} disabled="disabled" {% endif %} selected="selected">
+                                              {% if field %}
+                                              {{ field.month }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                            <option>January</option>
+                                          <option>February</option>
+                                          <option>March</option>
+                                          <option>April</option>
+                                          <option>May</option>
+                                          <option>June</option>
+                                          <option>July</option>
+                                          <option>August</option>
+                                          <option>September</option>
+                                          <option>October</option>
+                                          <option>November</option>
+                                          <option>December</option>
+                                          </select>
+                                        </div>
+                </div>
+                <div class="col">
+                    <h4 class="name">Year</h4>
+                    <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect02" name="year">
+                                            <option {% if not field %}
+                                                disabled="disabled" {% endif %} selected="selected">
+                                              {% if field %}
+                                              {{ field.year }}
+                                              {% else %}
+                                              Year
+                                              {% endif %}</option>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                </div>
+            </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col">
+                        <input type="hidden" value="{{field.id}}" name="current">
+                        <button type="submit"
+                                class="btn btn-primary" value="1" name="add_new">Edit</button>
+                        <button type="submit" class="btn btn-primary"
+                         value="1" style="float:right" name="delete">Delete</button>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+             </form>
+            {% endfor %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        <h4 class="name">FIELD TITLE</h4>
+                        <input type="text" name="field" class="form-control" placeholder="eg.Accomplishment"
+                                           aria-label="division" autocomplete="off"
+                                           {% if field %} value="{{ field.field_title }}" {% endif %} required>
+                    </div>
+                </div>
+                <br>
+            <div class="row">
+                    <div class="col">
+                        <h4 class="name">TITLE</h4>
+                        <input type="text" name="header" class="form-control" placeholder="eg. Research Paper"
+                                           aria-label="division" autocomplete="off"
+                                           {% if field %} value="{{ field.header }}" {% endif %} required>
+                    </div>
+                    <div class="col">
+                        <h4 class="name">DESCRIPTION</h4>
+                        <input type="text" name="description" class="form-control" placeholder="Describe it"
+                                           aria-label="division" autocomplete="off"
+                               {% if field %} value="{{ field.description }}" {% endif %} required>
+                    </div>
+                <div class="col">
+                    <h4 class="name">Month</h4>
+                    <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01" name="month">
+                                            <option
+                                                  {% if not field %} disabled="disabled" {% endif %} selected="selected">
+                                              {% if field %}
+                                              {{ field.month }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                            <option>January</option>
+                                          <option>February</option>
+                                          <option>March</option>
+                                          <option>April</option>
+                                          <option>May</option>
+                                          <option>June</option>
+                                          <option>July</option>
+                                          <option>August</option>
+                                          <option>September</option>
+                                          <option>October</option>
+                                          <option>November</option>
+                                          <option>December</option>
+                                          </select>
+                                        </div>
+                </div>
+                <div class="col">
+                    <h4 class="name">Year</h4>
+                    <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect02" name="year">
+                                            <option {% if not field %}
+                                                disabled="disabled" {% endif %} selected="selected">
+                                              {% if field %}
+                                              {{ field.year }}
+                                              {% else %}
+                                              Year
+                                              {% endif %}</option>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                </div>
+            </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary"
+                        name="add_new" value="1" id="add_another">Add-Another</button>
+                                <button id="redirect" style="float:right;" class="btn btn-primary"><a style="color:white;text-decoration:none"
+                        href="{% url 'create_resume' resume_id=resume field='view_template' %}">
+                            Next</a></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </form>
+        </div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{% static 'js/create_resume.js' %}"></script>
+{% endblock %}

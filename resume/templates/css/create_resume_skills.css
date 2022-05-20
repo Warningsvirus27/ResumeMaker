@@ -1,0 +1,37 @@
+.container {
+    position: relative;
+    //top: 10vh;
+    left: -5vw;
+    overflow: hidden;
+    float: left;
+    //width: 60vh;
+    width: 70%;
+    min-height: 55vh;
+    //box-shadow: 0 0 15px 5px rgb(31 73 125 / 80%);
+    //border-radius: 2vh;
+    //background-color: #ff5500;
+    //background: -webkit-gradient(linear,right top,left, from(#b054a1), to(#6e9bdb)) fixed;
+}
+.tab-pane{
+margin-left: 10%;
+float: center;
+}
+#end-btn{
+margin-top:15px;
+}
+.tab-pane fade show active{
+    color: #fff;
+    margin: 10px 10px;
+    background-color: #007bff;
+}
+.tab-content>.active {
+    display: block;
+    margin: 10px 10px;
+}
+
+element.style {
+}
+.nav-pills .nav-link {
+    border-radius: 0.25rem;
+    margin: 5px 10px;
+}

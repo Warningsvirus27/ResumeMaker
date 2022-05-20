@@ -10,29 +10,30 @@
 {% endblock %}
 
 {% block form %}
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" onsubmit="return(validate());">
         {% csrf_token %}
         <div class="container">
             <br>
             <div class="row">
-                <h1>
-                    ENTER PERSONAL DETAILS
-                </h1>
-                <p>Employers will use this information to contact you.</p>
+                <div class="col">
+                    <h1>
+                        ENTER PERSONAL DETAILS
+                    </h1>
+                    <p>Employers will use this information to contact you.</p>
+                </div>
             </div>
             <hr style="border: 2px dashed black;">
             <div class="row">
                 <div class="col">
                     <h4 class="name">PROFILE IMAGE</h4>
-                    <input type="file" name="image" accept="image/*"
-                    {% if personal_info %} value="media/{{ personal_info.image }}"
-                           src="media/{{ personal_info.image }}"
-                           {% endif %}/>
+                    <input type="file" name="image" accept="image/*" id="upload"
+                    {% if personal_info %} value="media/{{ personal_info.image }}" {% endif %}>
                 </div>
                 {% if personal_info %}
                 <div class="col">
                     {% if personal_info.image %}
-                    <img src="media/{{ personal_info.image }}" style="width:100px">
+                    <img src="media/{{ personal_info.image }}" style="width:100px" id="img_available">
+                    <input type="hidden" value="1" name="img_available">
                     {% endif %}
                 </div>
                 {% endif %}
@@ -103,13 +104,18 @@
             <br>
             <div class="row">
                 <div class="col">
-                    <div class="form-group">
-                      <label for="exampleFormControlTextarea1">SUMMARY</label>
-                      <textarea class="form-control rounded-0" name="summary"
-                                id="exampleFormControlTextarea1" rows="10">
-                          {% if personal_info %}{{personal_info.summary}}{% endif %}
-                      </textarea>
+                <div class="row">
+                    <div class="col">
+                        <h4 class="name">SUMMARY</h4>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <textarea id="text-area" class="form-control" name="summary"
+                                  rows="5" required>{% if personal_info %}{{personal_info.summary}}{% endif %}
+                        </textarea>
+                    </div>
+                </div>
                 </div>
             </div>
             <br>
@@ -126,4 +132,5 @@
 {% endblock %}
 
 {% block script %}
+<script type="text/javascript" src="{% static '/js/create_resume.js' %}"></script>
 {% endblock %}

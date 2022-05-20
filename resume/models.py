@@ -19,8 +19,9 @@ class Resume(models.Model):
 
 
 class CustomField(models.Model):
-    resume_id = models.ForeignKey(Resume, on_delete=models.CASCADE)
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
     field_title = models.CharField(max_length=255)
+    header = models.CharField(max_length=255)
     month = models.CharField(null=True, blank=True, max_length=255)
     year = models.IntegerField(null=True, blank=True)
     description = RichTextField()
@@ -94,7 +95,7 @@ class Project(models.Model):
 class TechnicalSkills(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
     skill_name = models.CharField(max_length=80)
-    level = models.IntegerField()
+    level = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.resume} {self.skill_name}"

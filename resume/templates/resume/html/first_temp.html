@@ -1,0 +1,218 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'resume/css/first_temp.css' %}">
+    <title>template</title>
+</head>
+
+<body>
+    <div id="temp1">
+        <div id="left">
+            <div id="image" {% if personal_info %}style="background-image: url(media/{{ personal_info.image }}");{% endif %}></div>
+            <div class="contact">
+                <p>CONTACT</p>
+            </div>
+            <ul>
+                <li class="con"><h3 style="white-space: nowrap"><i class="fa-solid fa-envelope"></i>{% if personal_info %}{{personal_info.email}}{% endif %}</h3></li>
+                <li class="con"><h3><i class="fa-solid fa-earth-americas"></i>{% if personal_info %}{{personal_info.country}}{% endif %}</h3></li>
+                <li class="con"><h3><i class="fa-solid fa-location-dot"></i>{% if personal_info %}{{personal_info.address}}{% endif %}</h3></li>
+                <li class="con"><h3><i class="fa-solid fa-tree-city"></i>{% if personal_info %}{{personal_info.city}}-{{personal_info.pin_code}}{% endif %}</h3></li>
+                <li class="con"><h3><i class="fa-solid fa-phone"></i>{% if personal_info %}{{personal_info.phone_number}}{% endif %}</h3></li>
+            </ul>
+
+
+            {% if tech_skills %}
+            <div class="language">
+                <p>TECHNICAL SKILLS</p>
+            </div>
+            <ul id="lan">
+            <div id="skill">
+                {% for skill in tech_skills %}
+                <li><h3>
+                    <pre><i class="fa-brands fa-accusoft"></i>{{skill.skill_name}}</pre>
+                </h3>
+
+                {% if skill.level %}
+                <div class="skills">
+                    <div class="skills_g" style="width:{% widthratio skill.level 1 20 %}%">
+                        <pre> </pre>
+                    </div>
+                </div>
+                </li>
+                {% else %}
+                <hr style="border: 1px dashed white;margin-left:30%;margin-right:30%;">
+                <br>
+                {% endif %}
+                {% endfor %}
+            </div>
+                {% endif %}
+            </ul>
+
+            <img id="left_d" src="{% static 'resume/images/wave.svg' %}" alt="">
+        </div>
+        <div id="right">
+            <img src="{% static 'resume/images/r_b1.svg' %}" alt="">
+            <div class="right_top">
+                <p class="p"><h1 style="font-size:40px;">{% if personal_info %}{{personal_info.first_name}} {{personal_info.last_name}}{% endif %}</h1></p>
+            </div>
+            <hr>
+
+            <img src="{% static 'resume/images/right_2.svg' %}" alt="" class="right_top_image">
+            <img src="{% static 'resume/images/right_1.svg' %}" alt="" class="right_bottom_image">
+            <div class="move_up">
+                {% if personal_info %}
+            <div id="obj" style="margin-left:5px;margin-right:5px;">
+                <h3>SUMMARY:</h3>
+                <span style="margin-left:5%;">{{ personal_info.summary }}</span>
+            </div>
+                <br>
+                <hr>
+                {% endif %}
+
+            {% if experience %}
+            <div class="experience">
+                <h3>EXPERIENCE:</h3>
+
+                {% for exp in experience %}
+                <h4 style="margin-left: 6%;">{{ exp.employer }}</h4>
+
+                <div>
+                    <span style="margin-left:15%;">{{ exp.job_title }}</span>
+
+                    {% if exp.month_start and exp.year_start and exp.month_end and exp.year_end %}
+                    <div style="float:right;white-space: nowrap;margin-right:10px;">
+                            <p style="white-space: nowrap">({{ exp.month_start }}-{{ exp.year_start }})-({{ exp.month_end }}-{{ exp.year_end }})</p>
+                        <p style="white-space: nowrap">{{ exp.city }} - {{ exp.state }}</p>
+                    </div>
+
+                    {% endif %}
+                </div>
+                <br>
+                <br>
+                <h4 style="margin-left: 6%;">Job Description:-</h4>
+                <p style="margin-left:15%;">{{ exp.job_description }}</p>
+                <hr style="border: 1px dashed black;margin-left:30%;margin-right:30%;">
+                <br>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if education %}
+            <div id="education">
+                <h3>EDUCATION:</h3>
+                {% for edu in education %}
+                <ul>
+                    <div>
+                    <h4>{{edu.degree}}-{{edu.study_field}}</h4>
+
+                    {% if edu.graduation_month and edu.graduation_year %}
+                    <div style="float:right;white-space: nowrap;margin-right:10px;">
+                            <p style="white-space: nowrap">{{ edu.graduation_month }}-{{ edu.graduation_year }}ok</p>
+                    </div>
+                    {% endif %}
+                    </div>
+
+                    <li>{{ edu.school_name }}</li>
+                    <li>{{ edu.city }}-{{edu.state}}</li>
+                    <li>{{edu.percentage}} {{edu.suffix}}</li>
+                </ul>
+                <hr style="border: 1px dashed black;margin-left:30%;margin-right:30%;">
+                <br>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+
+            {% if project %}
+                <div class="experience">
+                <h3>PROJECT:</h3>
+                {% for pro in project %}
+                <div>
+                    <h4 style="margin-left: 6%;">{{ pro.title }}</h4>
+                    {% if pro.month_start and pro.year_start and pro.month_end and pro.year_end %}
+                    <div style="float:right;white-space: nowrap;margin-right:10px;">
+                            <p style="white-space: nowrap">({{ pro.month_start }}-{{ pro.year_start }})-({{ pro.month_end }}-{{ pro.year_end }})</p>
+                    </div>
+                    {% endif %}
+                </div>
+                <br>
+                <h4 style="margin-left: 15%;">Project Description:-</h4>
+                <p style="margin-left:15%;">{{ pro.description }}</p>
+                <hr style="border: 1px dashed black;margin-left:30%;margin-right:30%;">
+                <br>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+
+
+                {% if soft_skills %}
+                <h3>MY SKILLS:</h3>
+            <div id="skill">
+                <h4>Soft Skills</h4>
+                {% for skill in soft_skills %}
+                <h5>
+                    <pre>&#8226; {{skill.skill_name}}</pre>
+                </h5>
+                {% if skill.description %}
+                <p style="margin-left:15%;">{{ skill.description }}</p>
+                {% else %}
+                <hr style="border: 1px dashed black;margin-left:30%;margin-right:30%;">
+                <br>
+                {% endif %}
+                {% endfor %}
+            </div>
+                {% endif %}
+
+                {% if custom %}
+                <br>
+                <hr style="border: 1px dashed black;margin-left:20%;margin-right:20%;">
+                {% for field in custom %}
+            <div id="skill">
+                <h4>{{field.field_title}}</h4>
+                <div class="">
+                     <h5>
+                    <pre>{{field.header}}</pre>
+                </h5>
+                    {% if field.month and field.year %}
+                    <div style="float:right;white-space: nowrap;margin-right:10px;">
+                            <p style="white-space: nowrap">{{ field.month }}-{{ field.year }}</p>
+                    </div>
+
+                    {% endif %}
+                    <h5 style="margin-left:15px;margin-right:15px;">- {{field.description}}</h5>
+                </div>
+
+            </div>
+                {% endfor %}
+                {% endif %}
+
+            </div>
+
+
+            {% if qr_code %}
+            <hr>
+            <br>
+            <div class="qr">
+
+                <p style="float:right;">Click the link or scan the Qr Code to view User's Documents</p>
+                <img style="float: right;width:20%;margin:0% 0% 0% 0%;" src="{% static 'images/qrcode/' %}{{qr_code}}">
+                <p><a style="float: right;white-space: nowrap;" href="{{qr_code}}/doc">{{qr_code}}/doc</a></p>
+            </div>
+            <br>
+                {% endif %}
+
+
+        </div>
+    </div>
+</body>
+<script src="https://kit.fontawesome.com/f7753b4128.js" crossorigin="anonymous"></script>
+
+</html>

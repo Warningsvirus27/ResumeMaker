@@ -10,10 +10,6 @@
 {% endblock %}
 
 {% block head_content %}
-<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
-        crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block form %}
@@ -55,15 +51,16 @@
                                 <h4 class="name">START DATE</h4>
                                 <div class="row">
                                     <div class="col">
-                                        <select class="form-select" aria-label="Default select example" name="month_start">
-                                          <option style="display:none;"
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect03" name="month_start">
+                                            <option
                                                   {% if not project %} disabled="disabled" {% endif %} selected="selected">
                                               {% if project %}
                                               {{ project.month_start }}
                                               {% else %}
                                               Month
                                               {% endif %}</option>
-                                          <option>January</option>
+                                            <option>January</option>
                                           <option>February</option>
                                           <option>March</option>
                                           <option>April</option>
@@ -75,19 +72,22 @@
                                           <option>October</option>
                                           <option>November</option>
                                           <option>December</option>
-                                        </select>
+                                          </select>
+                                        </div>
                                     </div>
                                     <div class="col">
-                                        <select class="form-select" aria-label="Default select example" name="year_start">
-                                          <option style="display:none;"
-                                                  {% if not project %} disabled="disabled" {% endif %} selected="selected">
+                                        <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect04" name="year_start">
+                                            <option {% if not project %}
+                                                disabled="disabled" {% endif %} selected="selected">
                                               {% if project %}
                                               {{ project.year_start }}
                                               {% else %}
                                               Year
                                               {% endif %}</option>
-                                          {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
-                                        </select>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -95,15 +95,16 @@
                                 <h4 class="name">END DATE</h4>
                                 <div class="row">
                                     <div class="col">
-                                        <select class="form-select" aria-label="Default select example" name="month_end">
-                                          <option style="display:none;"
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01" name="month_end">
+                                            <option
                                                   {% if not project %} disabled="disabled" {% endif %} selected="selected">
                                               {% if project %}
                                               {{ project.month_end }}
                                               {% else %}
                                               Month
                                               {% endif %}</option>
-                                          <option>January</option>
+                                            <option>January</option>
                                           <option>February</option>
                                           <option>March</option>
                                           <option>April</option>
@@ -115,24 +116,27 @@
                                           <option>October</option>
                                           <option>November</option>
                                           <option>December</option>
-                                        </select>
+                                          </select>
+                                        </div>
                                     </div>
                                     <div class="col">
-                                        <select class="form-select" aria-label="Default select example" name="year_end">
-                                          <option style="display:none;"
-                                                  {% if not project %} disabled="disabled" {% endif %} selected="selected">
+                                        <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect02" name="year_end">
+                                            <option {% if not project %}
+                                                disabled="disabled" {% endif %} selected="selected">
                                               {% if project %}
                                               {{ project.year_end }}
                                               {% else %}
                                               Year
                                               {% endif %}</option>
-                                          {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
-                                        </select>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <input type="checkbox" name="present">I Presently Work Here.
+                                        <input type="checkbox" name="present">I Presently Work.
                                     </div>
                                 </div>
                             </div>
@@ -140,15 +144,12 @@
                         <br>
                         <div class="row">
                             <div class="col">
-
                                 <div class="form-group">
-                                  <label for="exampleFormControlTextarea1">JOB DESCRIPTION</label>
-                                  <textarea class="form-control rounded-0" name="description"
-                                            id="exampleFormControlTextarea1" rows="10" required>
-                                      {% if project %}{{ project.description }}{% endif %}
-                                  </textarea>
+                                  <h4>PROJECT DESCRIPTION</h4>
+                                  <textarea id="text-area" class="form-control" name="description"
+                                            rows="5" required>{% if project %}{{ project.description }}{% endif %}
+                        </textarea>
                                 </div>
-
                             </div>
                         </div>
                         <br>
@@ -184,15 +185,16 @@
                                 <h4 class="name">START DATE</h4>
                                 <div class="row">
                                     <div class="col">
-                                        <select class="form-select" aria-label="Default select example" name="month_start">
-                                          <option style="display:none;"
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect03" name="month_start">
+                                            <option
                                                   {% if not project %} disabled="disabled" {% endif %} selected="selected">
                                               {% if project %}
                                               {{ project.month_start }}
                                               {% else %}
                                               Month
                                               {% endif %}</option>
-                                          <option>January</option>
+                                            <option>January</option>
                                           <option>February</option>
                                           <option>March</option>
                                           <option>April</option>
@@ -204,19 +206,22 @@
                                           <option>October</option>
                                           <option>November</option>
                                           <option>December</option>
-                                        </select>
+                                          </select>
+                                        </div>
                                     </div>
                                     <div class="col">
-                                        <select class="form-select" aria-label="Default select example" name="year_start">
-                                          <option style="display:none;"
-                                                  {% if not project %} disabled="disabled" {% endif %} selected="selected">
+                                        <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect04" name="year_start">
+                                            <option {% if not project %}
+                                                disabled="disabled" {% endif %} selected="selected">
                                               {% if project %}
                                               {{ project.year_start }}
                                               {% else %}
                                               Year
                                               {% endif %}</option>
-                                          {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
-                                        </select>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -224,15 +229,16 @@
                                 <h4 class="name">END DATE</h4>
                                 <div class="row">
                                     <div class="col">
-                                        <select class="form-select" aria-label="Default select example" name="month_end">
-                                          <option style="display:none;"
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01" name="month_end">
+                                            <option
                                                   {% if not project %} disabled="disabled" {% endif %} selected="selected">
                                               {% if project %}
                                               {{ project.month_end }}
                                               {% else %}
                                               Month
                                               {% endif %}</option>
-                                          <option>January</option>
+                                            <option>January</option>
                                           <option>February</option>
                                           <option>March</option>
                                           <option>April</option>
@@ -244,24 +250,27 @@
                                           <option>October</option>
                                           <option>November</option>
                                           <option>December</option>
-                                        </select>
+                                          </select>
+                                        </div>
                                     </div>
                                     <div class="col">
-                                        <select class="form-select" aria-label="Default select example" name="year_end">
-                                          <option style="display:none;"
-                                                  {% if not project %} disabled="disabled" {% endif %} selected="selected">
+                                        <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect02" name="year_end">
+                                            <option {% if not project %}
+                                                disabled="disabled" {% endif %} selected="selected">
                                               {% if project %}
                                               {{ project.year_end }}
                                               {% else %}
                                               Year
                                               {% endif %}</option>
-                                          {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
-                                        </select>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <input type="checkbox" name="present">I Presently Work Here.
+                                        <input type="checkbox" name="present">I Presently Work.
                                     </div>
                                 </div>
                             </div>
@@ -269,15 +278,12 @@
                         <br>
                         <div class="row">
                             <div class="col">
-
                                 <div class="form-group">
-                                  <label for="exampleFormControlTextarea1">JOB DESCRIPTION</label>
-                                  <textarea class="form-control rounded-0" name="description"
-                                            id="exampleFormControlTextarea1" rows="10" required>
-                                      {% if project %}{{ project.description }}{% endif %}
-                                  </textarea>
+                                  <h4>PROJECT DESCRIPTION</h4>
+                                  <textarea id="text-area" class="form-control" name="description"
+                                            rows="5" required>{% if project %}{{ project.description }}{% endif %}
+                        </textarea>
                                 </div>
-
                             </div>
                         </div>
                         <br>
@@ -306,4 +312,8 @@
 {% endblock %}
 
 {% block script %}
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
 {% endblock %}
