@@ -1,0 +1,112 @@
+::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    box-sizing: border-box;
+    overflow-x: hidden;
+    margin: 0px 0px;
+}
+#nav_right{
+float:right!important;
+}
+.welcome {
+    position: relative;
+    top: -40rem;
+    float: right;
+    right: -40%;
+
+}
+.title{
+//background: rgba(255, 255, 255, 0.1);
+background: #0E5D7B;
+  background: -webkit-linear-gradient(rgba(255, 255, 255, 0), rgb(0, 123, 255));
+  background: -o-linear-gradient(rgba(255, 255, 255, 0), rgb(0, 123, 255));
+  background: -moz-linear-gradient(rgba(255, 255, 255, 0), rgb(0, 123, 255));
+  background: linear-gradient(rgba(255, 255, 255, 0), rgb(0, 123, 255));
+
+ padding: 15px 15px;
+  -webkit-transition: background-color 1s ease-out;
+  -moz-transition: background-color 1s ease-out;
+  -o-transition: background-color 1s ease-out;
+  transition: background-color 1s ease-out;
+}
+.title:hover{
+background-color: rgba(245, 153, 120, 0.6);
+  cursor: pointer;
+}
+#home_nav {
+    position: fixed;
+    width: 100%;
+    background-color: rgb(29, 4, 87);
+    color: white;
+    z-index: 2;
+}
+#home_img{
+width: 100%;
+}
+#home_nav a {
+    color: rgb(254, 234, 234);
+}
+
+#home_div {
+    margin-top: 3%;
+    margin-left: 7%;
+    z-index: 1;
+}
+
+#home_div h2 {
+    color: brown;
+    height: fit-content;
+}
+
+.text-muted1 {
+    color: black;
+}
+
+.card {
+    margin-top: 10%;
+    margin-left: 30%;
+    margin-bottom: 7%;
+    background: url("home_slide.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.carousel-inner {
+    margin: 5% 0%;
+    margin-left: 37%;
+}
+
+.carousel-inner img {
+    width: 22rem;
+    height: 25rem;
+}
+
+#slide_slide {
+    background: url("home_slide.jpg");
+    margin-bottom: 4%;
+}
+
+footer{
+    margin: 0 0;
+    background-color:black;
+    width: 100vw;
+    color: azure;
+}
+footer p{
+    padding-top: 3%;
+}
+/*
+@media (min-width:1px){
+#footer{
+    width: 900px;
+}
+}
+/*
+.card-body{
+    margin-top: 5%;
+    margin-bottom: 4%;
+    color: beige;
+}*/

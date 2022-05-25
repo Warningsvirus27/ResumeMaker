@@ -1,0 +1,224 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+    <title>Hello, {{user.get_username}}</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light  " id="home_nav">
+        <a class="navbar-brand" href="#">Hello
+            {% if user.is_authenticated %}{{ user.get_full_name }}
+            {% else %}Alien.
+            {% endif %}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <ul class="navbar-nav ml-auto" style="margin-right: 25px;">
+        {% if user.is_authenticated %}
+      <li class="nav-item" style="margin-right:25px;">
+        <a class="nav-link" href="{% url 'logout' %}">
+        <button class="btn btn-primary">Log-out</button>
+        </a>
+      </li>
+        {% else %}
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'login' %}">
+        <button class="btn btn-primary">Sign-in</button>
+        </a>
+      </li>
+        <li style="font-size:34px;">
+            /
+        </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'register' %}">
+        <button class="btn btn-primary">Register</button>
+        </a>
+      </li>
+        {% endif %}
+    </ul>
+        </div>
+    </nav>
+
+    <div class="row">
+        <img src="{% static 'images/home2.png' %}" class="img-fluid" alt="Responsive image" id="home_img">
+
+                {% if messages %}
+        <div class="text-center" style="position:absolute;width:30%;top:150px;margin-left:50px;">
+            <br>
+            {% for message in messages %}
+            {% if message.tags == "error" %}
+                       <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                       </div>
+            {% endif %}
+            {% if message.tags == "success" %}
+                       <div class="alert alert-success" role="alert">
+                            {{ message }}
+                       </div>
+            {% endif %}
+            {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="welcome">
+                <div class="title">
+                    <center><h1 style="color:rgb(39, 213, 232);text-shadow: 0 0 2px rgb(0,0,0), 0 0 2px rgb(0,0,0);">
+                        Welcome to,
+                    </h1></center>
+                    <h1 style="font-size:48px;color:rgb(5, 38, 74);text-shadow: 0 0 2px rgb(255,255,255), 0 0 2px rgb(255,255,255);">
+                        <b>RESUME MAKER WEBAPP</b>
+                    </h1>
+                </div>
+                <hr style="border: 1px solid red;margin: 5% 40%;">
+
+                <div  style="white-space: nowrap">
+                <p style="font-size:26px;color:white;text-shadow: 0 0 5px #171515, 0 0 5px #171515;margin-left:25%;">
+                    Why have a second thaught?<br>
+                    Let's get going </p>
+                    <div class="row">
+                        <div class="col">
+                            <p style="font-size:30px;">&#128522;</p>
+                            <a href="{% url 'create_new_resume' %}">
+                                <button class="btn btn-danger">Create New Resume</button>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <p style="font-size:30px;">&#128549;</p>
+                            <a href="{% url 'template_edit' %}">
+                                <button class="btn btn-danger">Modify Resume</button>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <p style="font-size:30px;">&#128580;</p>
+                            <a href="{% url 'view_resume' %}">
+                                <button class="btn btn-danger">View Your Resumes</button>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <p style="font-size:30px;">&#128203;</p>
+                            <a href="{% url 'upload' %}">
+                                <button class="btn btn-danger">Upload Documents</button>
+                            </a>
+                        </div>
+                    </div>
+                    <hr style="border-top: 3px solid rgba(0, 0, 0, 0.1)">
+            </div>
+
+        </div>
+    </div>
+    <div data-aos="fade-right" class="row featurette" id="home_div">
+        <div data-aos="flip-right" class="col-md-7">
+            <h2 class="featurette-heading">OUR WEBAPP FEATURES : <span class="text-muted1">It'll blow your
+                    mind.</span></h2>
+            <p class="lead">
+                • User registration through <b>emails</b><br>
+                • <b>Email</b> verification for <b>login/register/forgot password</b><br>
+                • <b>Predefined</b> Resume Fields and inputs.<br>
+                • User can add <b>custom field</b><br>
+                • <b>Unlimited</b> resume creation, modification and <b>download access for free</b><br>
+                • <b>Admin panel</b> to monitor and manage <b>authoritative activities</b><br>
+                • To make <b>resume creation easy</b>, without downloading some application, or some misleading website<br>
+                • To provide <b>dynamic templates</b>.<br>
+                • To <b>reduce</b> resume <b>creation time</b>.<br>
+                • No need to provide user <b>document</b> with some <b>third-party system</b>, User can <b>upload</b>
+                his/her document and provide <b>permission</b> who can view it.<br>
+                • With the <b>predefined field</b>, the user gets an <b>intact idea</b> of what <b>information</b> is to be filled in.<br>
+                • No <b>basic knowledge</b> of how to <b>make resume</b> needed, only predefined input context are to be filled.<br>
+                • Dynamic <b>QRCode and Doc-link</b> to view user <b>documents</b><br>
+                • <b>Permission</b> based <b>document viewing</b><br>
+            </p>
+        </div>
+        <div class="col-md-5">
+            <img class="featurette-image img-fluid mx-auto" data-src="holder.js/300x300/auto" alt="500x500"
+                style="width: 300px; height: 300px;" src="{% static 'images/post1.svg' %}" data-holder-rendered="true">
+        </div>
+    </div>
+    <hr style="border: 2px solid rgba(29, 4, 87, 0.7);">
+    <div data-aos="flip-left" class="row featurette" id="home_div" style="margin-top:10%;">
+        <div class="col-md-7">
+            <h2 class="featurette-heading">OUR OBJECTIVES/GOAL. <span class="text-muted1">Let's have a look.</span></h2>
+            <p class="lead">
+                To Provide <b>remarkable resume templates</b> with <b>user ease</b> and <b>user convince</b>.<br>
+                To allow user to <b>create</b> and <b>modify</b> any number of templates for <b>free</b>.<br>
+                    To make <b>document checking</b> process <b>easy</b>.<br>
+                To make <b>resume creation time short</b>, by having <b>predefined field</b>, to input user data, also <b>custom field</b> can be added.<br>
+                To make <b>login, logout, forget password</b> processes easy with <b>email verification</b>.<br>
+            </p>
+        </div>
+        <div class="col-md-5">
+            <img class="featurette-image img-fluid mx-auto" data-src="holder.js/300x300/auto" alt="500x500"
+                style="width: 300px; height: 300px;" src="{% static 'images/post2.svg' %}" data-holder-rendered="true">
+        </div>
+    </div>
+    <hr style="border: 2px solid rgba(29, 4, 87, 0.7);">
+    <div id="slide_slide">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <center>Our sample Resumes <b>(demo)</b></center>
+
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static 'images/slide_1.jpg' %}" class="d-block w-90" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'images/slide_2.jpg' %}" class="d-block w-90" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'images/slide_1.jpg' %}" class="d-block w-90" alt="...">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+
+    <footer class="text-muted">
+        <div class="container">
+            <p class="float-right">
+                <a href="#">Back to top</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script>
+          AOS.init();
+        </script>
+</body>
+
+</html>

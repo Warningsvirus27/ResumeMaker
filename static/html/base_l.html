@@ -16,8 +16,9 @@
 
 </head>
 <body>
-<img class="wave" src="{% static 'img/wave.svg' %}">
-<div class="label">
+<img class="wave" src="{% static 'img/wave4.svg' %}">
+
+<div class="text-center">
     {% if messages %}
     <br>
 
@@ -36,18 +37,13 @@
     {% endif %}
 
     {% endfor %}
-    <hr>
     {% endif %}
+</div>
 
-    <div class="myDiv">
-        <div>
-            {% block page_name %}
-            {% endblock %}
-        </div>
-        {% block form %}
-        {% endblock %}
-    </div>
-
+<!--<div class="label">-->
+<div class="myDiv">
+    {% block form %}
+    {% endblock %}
 </div>
 
 </body>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+</head>
+<body>
+<a href="create_new_resume">click here</a>
+                        {% if messages %}
+                <br>
+                {% for message in messages %}
+                {% if message.tags == "error" %}
+                           <div class="alert alert-danger" role="alert">
+                                {{ message }}
+                           </div>
+                {% endif %}
+                {% if message.tags == "success" %}
+                           <div class="alert alert-success" role="alert">
+                                {{ message }}
+                           </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+</body>
+</html>

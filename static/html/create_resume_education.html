@@ -1,0 +1,446 @@
+{% extends 'html/create_resume_base.html' %}
+{% load static %}
+
+{% block title %}
+    Education-field
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/create_resume_tab.css' %}">
+{% endblock %}
+
+{% block head_content %}
+{% endblock %}
+
+{% block form %}
+        <div class="container">
+            <br>
+            <div class="row">
+                <h1>
+                    ENTER EDUCATION DETAILS
+                </h1>
+                <p>Add Information about your educational background.</p>
+            </div>
+            <hr style="border: 2px dashed black;">
+
+                <ul class="nav nav-tabs" role="tablist">
+                    {% for tabs in educations %}
+                  <li class="nav-tabs-li"><a href="#{{ tabs.id }}" role="tab" data-toggle="tab">
+                      <button class="btn btn-primary">{{tabs.school_name }}</button></a></li>
+                    {% endfor %}
+                    <li class="nav-tabs-li active"><a href="#Edu-{{count}}" role="tab" data-toggle="tab">
+                      <button class="btn btn-primary">EDU-{{count}}</button></a></li>
+                </ul>
+            <div class="tab-content">
+                <br>
+                {% for education in educations %}
+                  <div class="tab-pane" id="{{ education.id }}">
+                       <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">SCHOOL/COLLEGE NAME</h4>
+                                <input type="text" name="school_name" class="form-control" placeholder="School Name"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.school_name }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">CITY</h4>
+                                <input type="text" name="city" class="form-control" placeholder="City"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.city }}" {% endif %} required>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">STATE</h4>
+                                <input type="text" name="state" class="form-control" placeholder="State"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.state }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <h4 class="name">Degree</h4>
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01"
+                                          name="degree"
+                                         onchange="myFunction(this, 'custom_degree', 'insert_degree{{education.id}}')">
+                                            <option
+                                                  {% if not education %} disabled="disabled" {% endif %}
+                                                  selected="selected">
+                                              {% if education %}
+                                              {{ education.degree }}
+                                              {% else %}
+                                              Degree---
+                                              {% endif %}</option>
+                                            <option>Secondary School</option>
+                                            <option>Higher Secondary School</option>
+                                            <option>Diploma</option>
+                                            <option>GED</option>
+                                            <option>Associate of Arts</option>
+                                            <option>Associate of Science</option>
+                                            <option>Associate of Applied Science</option>
+                                            <option>Bachelor of Arts</option>
+                                            <option>Bachelor of Science</option>
+                                            <option>Bachelor of Commerce</option>
+                                            <option>Bachelor of Engineering</option>
+                                            <option>Bachelor of Law</option>
+                                            <option>Bachelor of Medicine</option>
+                                            <option>BBA</option>
+                                            <option>Masters of Arts</option>
+                                            <option>Master of Science</option>
+                                            <option>MBA</option>
+                                            <option>J.D</option>
+                                            <option>M.D</option>
+                                            <option>Ph.D</option>
+                                            <option>Custom</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="name">FIELD OF STUDY</h4>
+                                        <input type="text" name="study_field" class="form-control"
+                                       placeholder="eg. Computer Science"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.study_field }}" {% endif %}>
+                            </div>
+                                </div>
+                                    <div class="row">
+                                <div class="col" id="insert_degree{{education.id}}">
+                                </div>
+                                    <div class="col">
+                                    </div>
+                            </div>
+                                </div>
+                        </div>
+
+                        <br>
+                        <div class="row">
+                                <div class="col">
+                                    <h4 class="name">GRADUATION DATE :</h4>
+                                    <div class="row">
+                                        <div class="col">
+                                    <h4 class="name">MONTH</h4>
+                                    <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect02"
+                                          name="month">
+                                            <option
+                                              {% if not education %} disabled="disabled" {% endif %}
+                                              selected="selected">
+                                              {% if education %}
+                                              {{ education.graduation_month }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                              <option>January</option>
+                                            <option>February</option>
+                                            <option>March</option>
+                                            <option>April</option>
+                                            <option>May</option>
+                                            <option>June</option>
+                                            <option>July</option>
+                                            <option>August</option>
+                                            <option>September</option>
+                                            <option>October</option>
+                                            <option>November</option>
+                                            <option>December</option>
+                                          </select>
+                                        </div>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="name">YEAR</h4>
+                                            <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect03"
+                                          name="year">
+                                            <option
+                                                {% if not education %} disabled="disabled" {% endif %} selected="selected">
+                                                {% if education %}
+                                                {{ education.graduation_year }}
+                                                {% else %}
+                                                Year
+                                                {% endif %}</option>
+                                              {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <input type="checkbox" name="present">I Presently Study.
+                                </div>
+                            </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                <h4 class="name">PERCENTAGE/GRADE</h4>
+                                <input type="text" name="percentage" class="form-control"
+                                       placeholder="eg. Computer Science"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.percentage }}" {% endif %} required>
+                            </div>
+                                    <div class="col">
+                                        <h4 class="name">SUFFIX</h4>
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect04"
+                                          name="suffix"
+                                        onchange="myFunction(this, 'custom_percentage', 'insert_percentage{{education.id}}', '')" >
+                                            <option
+                                                selected="selected">
+                                                    {% if education %}
+                                                {{ education.suffix }}
+                                                {% else %}
+                                                %
+                                                {% endif %}
+                                                    </option>
+                                              <option>CGPA</option>
+                                            <option>Grade</option>
+                                            <option>Custom</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col"></div>
+                                    <div class="col" id="insert_percentage{{education.id}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                      <div class="row">
+                    <div class="col">
+                        <input type="hidden" name="current" value="{{education.id}}">
+                        <button type="submit" class="btn btn-primary">Save-Next</button>
+                        <button type="submit" name="add_new" value="1" class="btn btn-primary">Add Another</button>
+                    </div>
+                    <div class="col">
+                        <button style="float:right" type="submit" name="delete" value="1" class="btn btn-primary">Delete</button>
+                </div>
+                </div>
+               </form>
+               </div>
+
+            {% endfor %}
+
+                <div class="tab-pane active" id="Edu-{{count}}">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">SCHOOL/COLLEGE NAME</h4>
+                                <input type="text" name="school_name" class="form-control" placeholder="School Name"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.school_name }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">CITY</h4>
+                                <input type="text" name="city" class="form-control" placeholder="City"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.city }}" {% endif %} required>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">STATE</h4>
+                                <input type="text" name="state" class="form-control" placeholder="State"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.state }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <h4 class="name">Degree</h4>
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01"
+                                          name="degree"
+                                         onchange="myFunction(this, 'custom_degree', 'insert_degree{{count}}')">
+                                            <option
+                                                  {% if not education %} disabled="disabled" {% endif %}
+                                                  selected="selected">
+                                              {% if education %}
+                                              {{ education.degree }}
+                                              {% else %}
+                                              Degree---
+                                              {% endif %}</option>
+                                            <option>Secondary School</option>
+                                            <option>Higher Secondary School</option>
+                                            <option>Diploma</option>
+                                            <option>GED</option>
+                                            <option>Associate of Arts</option>
+                                            <option>Associate of Science</option>
+                                            <option>Associate of Applied Science</option>
+                                            <option>Bachelor of Arts</option>
+                                            <option>Bachelor of Science</option>
+                                            <option>Bachelor of Commerce</option>
+                                            <option>Bachelor of Engineering</option>
+                                            <option>Bachelor of Law</option>
+                                            <option>Bachelor of Medicine</option>
+                                            <option>BBA</option>
+                                            <option>Masters of Arts</option>
+                                            <option>Master of Science</option>
+                                            <option>MBA</option>
+                                            <option>J.D</option>
+                                            <option>M.D</option>
+                                            <option>Ph.D</option>
+                                            <option>Custom</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="name">FIELD OF STUDY</h4>
+                                        <input type="text" name="study_field" class="form-control"
+                                       placeholder="eg. Computer Science"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.study_field }}" {% endif %}>
+                            </div>
+                                </div>
+                                    <div class="row">
+                                <div class="col" id="insert_degree{{count}}">
+                                </div>
+                                    <div class="col">
+                                    </div>
+                            </div>
+                                </div>
+                        </div>
+
+                        <br>
+                        <div class="row">
+                                <div class="col">
+                                    <h4 class="name">GRADUATION DATE :</h4>
+                                    <div class="row">
+                                        <div class="col">
+                                    <h4 class="name">MONTH</h4>
+                                    <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect02"
+                                          name="month">
+                                            <option
+                                              {% if not education %} disabled="disabled" {% endif %}
+                                              selected="selected">
+                                              {% if education %}
+                                              {{ education.graduation_month }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                              <option>January</option>
+                                            <option>February</option>
+                                            <option>March</option>
+                                            <option>April</option>
+                                            <option>May</option>
+                                            <option>June</option>
+                                            <option>July</option>
+                                            <option>August</option>
+                                            <option>September</option>
+                                            <option>October</option>
+                                            <option>November</option>
+                                            <option>December</option>
+                                          </select>
+                                        </div>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="name">YEAR</h4>
+                                            <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect03"
+                                          name="year">
+                                            <option
+                                                {% if not education %} disabled="disabled" {% endif %} selected="selected">
+                                                {% if education %}
+                                                {{ education.graduation_year }}
+                                                {% else %}
+                                                Year
+                                                {% endif %}</option>
+                                              {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <input type="checkbox" name="present">I Presently Study.
+                                </div>
+                            </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                <h4 class="name">PERCENTAGE/GRADE</h4>
+                                <input type="text" name="percentage" class="form-control"
+                                       placeholder="eg. Computer Science"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.percentage }}" {% endif %} required>
+                            </div>
+                                    <div class="col">
+                                        <h4 class="name">SUFFIX</h4>
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect04"
+                                          name="suffix"
+                                        onchange="myFunction(this, 'custom_percentage', 'insert_percentage{{count}}', '')" >
+                                            <option
+                                                selected="selected">
+                                                    {% if education %}
+                                                {{ education.suffix }}
+                                                {% else %}
+                                                %
+                                                {% endif %}
+                                                    </option>
+                                              <option>CGPA</option>
+                                            <option>Grade</option>
+                                            <option>Custom</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col"></div>
+                                    <div class="col" id="insert_percentage{{count}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                      <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Save-Next</button>
+                        <button type="submit" name="add_new" value="1" class="btn btn-primary">Add Another</button>
+                    </div>
+                    <div class="col">
+                        <button style="float:right" type="submit" name="delete" value="1" class="btn btn-primary">Delete</button>
+                </div>
+                </div>
+               </form>
+                </div>
+            </div>
+            <hr class="line">
+            <div class="row">
+                <div class="col">
+                    <a style="float:right" href="{% url 'create_resume' resume_id=resume field='projects' %}">
+                        <button class="btn btn-primary">Skip and Next</button>
+                    </a>
+                </div>
+            </div>
+            <br>
+        </div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{% static 'js/create_resume.js' %}"></script>
+<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
+{% endblock %}

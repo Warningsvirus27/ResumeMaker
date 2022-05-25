@@ -1,0 +1,1674 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <meta name="description" content="">
+     <title>
+         Modify Resume
+     </title>
+
+    <link rel="stylesheet" href="{% static 'css/modify.css' %}"/>
+
+</head>
+<body style="background-image: url({% static 'images/paper.jpg' %});">
+
+<nav id="nav_page" class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand">Hello <b>{{user.get_full_name}}</b></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item" style="margin-right:50px;">
+          <a href="{% url 'home' %}">
+              <button class="btn btn-primary">HOMEPAGE</button>
+          </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+
+    {% if messages %}
+<div class="text-center" style="width:30%;float:right;position:relative;top:70px;margin-right:50px;">
+    <br>
+
+    {% for message in messages %}
+
+    {% if message.tags == "error" %}
+               <div class="alert alert-danger" role="alert">
+                    {{ message }}
+               </div>
+    {% endif %}
+
+    {% if message.tags == "success" %}
+               <div class="alert alert-success" role="alert">
+                    {{ message }}
+               </div>
+    {% endif %}
+
+    {% endfor %}
+    </div>
+    {% endif %}
+
+
+
+<br>
+<div class="myDiv">
+    <div class="container">
+        <div class="bd-example bd-example-tabs">
+          <div class="row">
+            <div class="col-3" style="border-right:1px dashed black;margin-top:10px">
+              <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+                <a class="nav-link active show" id="v-pills-personal_information-tab" data-toggle="pill" href="#v-pills-personal_information"
+                   role="tab" aria-controls="v-pills-home" aria-selected="false">Personal Information</a>
+                <a class="nav-link" id="v-pills-experience-tab" data-toggle="pill" href="#v-pills-experience"
+                   role="tab" aria-controls="v-pills-profile" aria-selected="false">Experience</a>
+                <a class="nav-link" id="v-pills-education-tab" data-toggle="pill" href="#v-pills-education"
+                   role="tab" aria-controls="v-pills-messages" aria-selected="false">Education</a>
+                <a class="nav-link" id="v-pills-project-tab" data-toggle="pill" href="#v-pills-project"
+                   role="tab" aria-controls="v-pills-settings" aria-selected="true">Project</a>
+                <a class="nav-link" id="v-pills-technical_skills-tab" data-toggle="pill" href="#v-pills-technical_skills"
+                   role="tab" aria-controls="v-pills-settings" aria-selected="true">Technical Skills</a>
+                <a class="nav-link" id="v-pills-soft_skills-tab" data-toggle="pill" href="#v-pills-soft_skills"
+                   role="tab" aria-controls="v-pills-settings" aria-selected="true">Soft Skills</a>
+                <a class="nav-link" id="v-pills-custom-tab" data-toggle="pill" href="#v-pills-custom"
+                   role="tab" aria-controls="v-pills-settings" aria-selected="true">Custom Field</a>
+                <a class="nav-link" id="v-pills-preview-tab"
+                   href="{% url 'create_resume' resume_id=resume field='view_template' %}">
+                    <button class="btn btn-primary" style="width:100%;margin-top:200px;">
+                        Preview</button></a>
+              </div>
+            </div>
+            <div class="col-9">
+              <div class="tab-content" id="v-pills-tabContent">
+
+                <div class="tab-pane fade active show" id="v-pills-personal_information" role="tabpanel" aria-labelledby="v-pills-personal_information-tab">
+                  <form method="post" enctype="multipart/form-data" onsubmit="return(validate());">
+                    {% csrf_token %}
+                    <div class="container2">
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">PROFILE IMAGE</h4>
+                                <input type="file" name="image" accept="image/*" id="upload"
+                                {% if personal_info %} value="media/{{ personal_info.image }}" {% endif %}>
+                            </div>
+                            {% if personal_info %}
+                            <div class="col">
+                                {% if personal_info.image %}
+                                <img src="media/{{ personal_info.image }}" style="width:100px" id="img_available">
+                                <input type="hidden" value="1" name="img_available">
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">FIRST NAME</h4>
+                                <input type="text" name="first_name" class="form-control" placeholder="First Name"
+                                       aria-label="division" autocomplete="off"
+                                       {% if personal_info %} value="{{personal_info.first_name}}" {% endif %} required>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">LAST NAME</h4>
+                                <input type="text" name="last_name" class="form-control" placeholder="Last Name"
+                                       aria-label="division" autocomplete="off"
+                                       {% if personal_info %} value="{{personal_info.last_name}}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">ADDRESS</h4>
+                                <input type="text" name="address" class="form-control" placeholder="Address"
+                                           aria-label="division" autocomplete="off"
+                                       {% if personal_info %} value="{{personal_info.address}}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">CITY</h4>
+                                <input type="text" name="city" class="form-control" placeholder="City"
+                                       aria-label="division" autocomplete="off"
+                                       {% if personal_info %} value="{{personal_info.city}}" {% endif %} required>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">PIN CODE</h4>
+                                <input type="text" name="pin_code" class="form-control" placeholder="Pin Code"
+                                       aria-label="division" autocomplete="off" maxlength="6"  minlength="6"
+                                       {% if personal_info %} value="{{personal_info.pin_code}}" {% endif %} required>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">COUNTRY</h4>
+                                <input type="text" name="country" class="form-control" placeholder="Country"
+                                       aria-label="division" autocomplete="off"
+                                       {% if personal_info %} value="{{personal_info.country}}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">EMAIL ID</h4>
+                                <input type="email" name="email" class="form-control" placeholder="Email"
+                                       aria-label="division" autocomplete="off"
+                                       {% if personal_info %} value="{{personal_info.email}}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">PHONE NUMBER</h4>
+                                <input type="text" name="phone_number" class="form-control" placeholder="Phone Number"
+                                       aria-label="division" autocomplete="off" maxlength="10" minlength="10"
+                                       {% if personal_info %} value="{{personal_info.phone_number}}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                            <div class="row">
+                                <div class="col">
+                                    <h4 class="name">SUMMARY</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <textarea id="text-area" class="form-control" name="summary"
+                                              rows="5" required>{% if personal_info %}{{personal_info.summary}}{% endif %}
+                                    </textarea>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary" name="modify_personal_info" value="1">
+                                        Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </form>
+                </div>
+
+                <div class="tab-pane fade" id="v-pills-experience" role="tabpanel" aria-labelledby="v-pills-experience-tab">
+                  <div class="container2">
+                    <br>
+                <ul class="nav nav-tabs" role="tablist">
+                    {% for tabs in experiences %}
+                  <li class="nav-tabs-li"><a href="#{{ tabs.id }}" role="tab" data-toggle="tab">
+                      <button class="btn btn-primary" style="margin-right:10px;">{{tabs.employer}}</button></a></li>
+                    {% endfor %}
+                    <li class="nav-tabs-li active"><a href="#job-{{count}}" role="tab" data-toggle="tab">
+                      <button class="btn btn-primary" style="margin-right:10px;">job-{{count}}</button></a></li>
+                </ul>
+            <div class="tab-content">
+                <br>
+                {% for experience in experiences %}
+                  <div class="tab-pane" id="{{ experience.id }}">
+                       <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">EMPLOYER</h4>
+                                <input type="text" name="employer" class="form-control" placeholder="eg. IBM"
+                                       aria-label="division" autocomplete="off"
+                                       {% if experience %} value="{{ experience.employer }}" {% endif %} required>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">JOB TITLE</h4>
+                                <input type="text" name="job_title" class="form-control" placeholder="eg. Sr Software Engineer"
+                                       aria-label="division" autocomplete="off"
+                                       {% if experience %} value="{{ experience.job_title }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">CITY</h4>
+                                <input type="text" name="city" class="form-control" placeholder="City"
+                                           aria-label="division" autocomplete="off"
+                                       {% if experience %} value="{{ experience.city }}" {% endif %} required>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">STATE</h4>
+                                <input type="text" name="state" class="form-control" placeholder="State"
+                                       aria-label="division" autocomplete="off"
+                                       {% if experience %} value="{{ experience.state }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">START DATE</h4>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect03" name="month_start">
+                                            <option
+                                                  {% if not experience %} disabled="disabled" {% endif %} selected="selected">
+                                              {% if experience %}
+                                              {{ experience.month_start }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                            <option>January</option>
+                                          <option>February</option>
+                                          <option>March</option>
+                                          <option>April</option>
+                                          <option>May</option>
+                                          <option>June</option>
+                                          <option>July</option>
+                                          <option>August</option>
+                                          <option>September</option>
+                                          <option>October</option>
+                                          <option>November</option>
+                                          <option>December</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect04" name="year_start">
+                                            <option {% if not experience %}
+                                                disabled="disabled" {% endif %} selected="selected">
+                                              {% if experience %}
+                                              {{ experience.year_start }}
+                                              {% else %}
+                                              Year
+                                              {% endif %}</option>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">END DATE</h4>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01" name="month_end">
+                                            <option
+                                                  {% if not experience %} disabled="disabled" {% endif %} selected="selected">
+                                              {% if experience %}
+                                              {{ experience.month_end }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                            <option>January</option>
+                                          <option>February</option>
+                                          <option>March</option>
+                                          <option>April</option>
+                                          <option>May</option>
+                                          <option>June</option>
+                                          <option>July</option>
+                                          <option>August</option>
+                                          <option>September</option>
+                                          <option>October</option>
+                                          <option>November</option>
+                                          <option>December</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect02" name="year_end">
+                                            <option {% if not experience %}
+                                                disabled="disabled" {% endif %} selected="selected">
+                                              {% if experience %}
+                                              {{ experience.year_end }}
+                                              {% else %}
+                                              Year
+                                              {% endif %}</option>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="checkbox" name="present">I Presently Work Here.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+
+                                <div class="form-group">
+                                  <h4>JOB DESCRIPTION</h4>
+                                  <textarea id="text-area" class="form-control" name="job_description"
+                                            rows="5" required>{% if experience %}{{ experience.job_description }}{% endif %}
+                        </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                      <div class="row">
+                    <div class="col">
+                        <input type="hidden" name="current" value="{{experience.id}}">
+                        <input type="hidden" name="modify_experience" value="1">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="{% url 'edit' resume_id=resume %}">
+                        <button type="submit" name="add_new" value="1" class="btn btn-primary">Add Another</button>
+                    </a>
+                    </div>
+                    <div class="col">
+                        <button style="float:right" type="submit" name="delete" value="1" class="btn btn-primary">Delete</button>
+                </div>
+                </div>
+               </form>
+               </div>
+
+            {% endfor %}
+
+                <div class="tab-pane active" id="job-{{count}}">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">EMPLOYER</h4>
+                                <input type="text" name="employer" class="form-control" placeholder="eg. IBM"
+                                       aria-label="division" autocomplete="off"
+                                       {% if experience %} value="{{ experience.employer }}" {% endif %} required>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">JOB TITLE</h4>
+                                <input type="text" name="job_title" class="form-control" placeholder="eg. Sr Software Engineer"
+                                       aria-label="division" autocomplete="off"
+                                       {% if experience %} value="{{ experience.job_title }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">CITY</h4>
+                                <input type="text" name="city" class="form-control" placeholder="City"
+                                           aria-label="division" autocomplete="off"
+                                       {% if experience %} value="{{ experience.city }}" {% endif %} required>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">STATE</h4>
+                                <input type="text" name="state" class="form-control" placeholder="State"
+                                       aria-label="division" autocomplete="off"
+                                       {% if experience %} value="{{ experience.state }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">START DATE</h4>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect03" name="month_start">
+                                            <option
+                                                  {% if not experience %} disabled="disabled" {% endif %} selected="selected">
+                                              {% if experience %}
+                                              {{ experience.month_start }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                            <option>January</option>
+                                          <option>February</option>
+                                          <option>March</option>
+                                          <option>April</option>
+                                          <option>May</option>
+                                          <option>June</option>
+                                          <option>July</option>
+                                          <option>August</option>
+                                          <option>September</option>
+                                          <option>October</option>
+                                          <option>November</option>
+                                          <option>December</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect04" name="year_start">
+                                            <option {% if not experience %}
+                                                disabled="disabled" {% endif %} selected="selected">
+                                              {% if experience %}
+                                              {{ experience.year_start }}
+                                              {% else %}
+                                              Year
+                                              {% endif %}</option>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">END DATE</h4>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01" name="month_end">
+                                            <option
+                                                  {% if not experience %} disabled="disabled" {% endif %} selected="selected">
+                                              {% if experience %}
+                                              {{ experience.month_end }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                            <option>January</option>
+                                          <option>February</option>
+                                          <option>March</option>
+                                          <option>April</option>
+                                          <option>May</option>
+                                          <option>June</option>
+                                          <option>July</option>
+                                          <option>August</option>
+                                          <option>September</option>
+                                          <option>October</option>
+                                          <option>November</option>
+                                          <option>December</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect02" name="year_end">
+                                            <option {% if not experience %}
+                                                disabled="disabled" {% endif %} selected="selected">
+                                              {% if experience %}
+                                              {{ experience.year_end }}
+                                              {% else %}
+                                              Year
+                                              {% endif %}</option>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="checkbox" name="present">I Presently Work Here.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+
+                                <div class="form-group">
+                                  <h4>JOB DESCRIPTION</h4>
+                                    {% if experience %}
+                                  <textarea id="text-area" class="form-control" name="job_description" rows="5" required>{{ experience.job_description }}
+                        </textarea>
+                                    {% else %}
+                                   <textarea id="text-area" class="form-control" name="job_description" rows="5" required></textarea>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                        </div>
+                        <br>
+                    <div class="row">
+                    <div class="col">
+                        <input type="hidden" name="modify_experience" value="1">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="{% url 'edit' resume_id=resume %}">
+                        <button type="submit" name="add_new" value="1" class="btn btn-primary">Add Another</button>
+                    </a>
+                    </div>
+                    <div class="col">
+                        <button  style="float:right" type="submit" name="delete" value="1" class="btn btn-primary">Delete</button>
+                    </div>
+                </div>
+                    </form>
+                </div>
+            </div>
+            <hr class="line">
+            <br>
+        </div>
+                </div>
+
+                <div class="tab-pane fade" id="v-pills-education" role="tabpanel" aria-labelledby="v-pills-education-tab">
+                  <div class="container2">
+                    <br>
+                <ul class="nav nav-tabs" role="tablist">
+                    {% for tabs in educations %}
+                  <li class="nav-tabs-li"><a href="#{{ tabs.id }}" role="tab" data-toggle="tab">
+                      <button class="btn btn-primary" style="margin-right:10px;">{{tabs.school_name }}</button></a></li>
+                    {% endfor %}
+                    <li class="nav-tabs-li active"><a href="#Edu-{{count}}" role="tab" data-toggle="tab">
+                      <button class="btn btn-primary" style="margin-right:10px;">EDU-{{count}}</button></a></li>
+                </ul>
+            <div class="tab-content">
+                <br>
+                {% for education in educations %}
+                  <div class="tab-pane" id="{{ education.id }}">
+                       <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">SCHOOL/COLLEGE NAME</h4>
+                                <input type="text" name="school_name" class="form-control" placeholder="School Name"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.school_name }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">CITY</h4>
+                                <input type="text" name="city" class="form-control" placeholder="City"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.city }}" {% endif %} required>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">STATE</h4>
+                                <input type="text" name="state" class="form-control" placeholder="State"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.state }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <h4 class="name">Degree</h4>
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01"
+                                          name="degree"
+                                         onchange="myFunction(this, 'custom_degree', 'insert_degree{{education.id}}')">
+                                            <option
+                                                  {% if not education %} disabled="disabled" {% endif %}
+                                                  selected="selected">
+                                              {% if education %}
+                                              {{ education.degree }}
+                                              {% else %}
+                                              Degree---
+                                              {% endif %}</option>
+                                            <option>Secondary School</option>
+                                            <option>Higher Secondary School</option>
+                                            <option>Diploma</option>
+                                            <option>GED</option>
+                                            <option>Associate of Arts</option>
+                                            <option>Associate of Science</option>
+                                            <option>Associate of Applied Science</option>
+                                            <option>Bachelor of Arts</option>
+                                            <option>Bachelor of Science</option>
+                                            <option>Bachelor of Commerce</option>
+                                            <option>Bachelor of Engineering</option>
+                                            <option>Bachelor of Law</option>
+                                            <option>Bachelor of Medicine</option>
+                                            <option>BBA</option>
+                                            <option>Masters of Arts</option>
+                                            <option>Master of Science</option>
+                                            <option>MBA</option>
+                                            <option>J.D</option>
+                                            <option>M.D</option>
+                                            <option>Ph.D</option>
+                                            <option>Custom</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="name">FIELD OF STUDY</h4>
+                                        <input type="text" name="study_field" class="form-control"
+                                       placeholder="eg. Computer Science"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.study_field }}" {% endif %}>
+                            </div>
+                                </div>
+                                    <div class="row">
+                                <div class="col" id="insert_degree{{education.id}}">
+                                </div>
+                                    <div class="col">
+                                    </div>
+                            </div>
+                                </div>
+                        </div>
+
+                        <br>
+                        <div class="row">
+                                <div class="col">
+                                    <h4 class="name">GRADUATION DATE :</h4>
+                                    <div class="row">
+                                        <div class="col">
+                                    <h4 class="name">MONTH</h4>
+                                    <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect02"
+                                          name="month">
+                                            <option
+                                              {% if not education %} disabled="disabled" {% endif %}
+                                              selected="selected">
+                                              {% if education %}
+                                              {{ education.graduation_month }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                              <option>January</option>
+                                            <option>February</option>
+                                            <option>March</option>
+                                            <option>April</option>
+                                            <option>May</option>
+                                            <option>June</option>
+                                            <option>July</option>
+                                            <option>August</option>
+                                            <option>September</option>
+                                            <option>October</option>
+                                            <option>November</option>
+                                            <option>December</option>
+                                          </select>
+                                        </div>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="name">YEAR</h4>
+                                            <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect03"
+                                          name="year">
+                                            <option
+                                                {% if not education %} disabled="disabled" {% endif %} selected="selected">
+                                                {% if education %}
+                                                {{ education.graduation_year }}
+                                                {% else %}
+                                                Year
+                                                {% endif %}</option>
+                                              {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <input type="checkbox" name="present">I Presently Study.
+                                </div>
+                            </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                <h4 class="name">PERCENTAGE/GRADE</h4>
+                                <input type="text" name="percentage" class="form-control"
+                                       placeholder="eg. Computer Science"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.percentage }}" {% endif %} required>
+                            </div>
+                                    <div class="col">
+                                        <h4 class="name">SUFFIX</h4>
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect04"
+                                          name="suffix"
+                                        onchange="myFunction(this, 'custom_percentage', 'insert_percentage{{education.id}}', '')" >
+                                            <option
+                                                selected="selected">
+                                                    {% if education %}
+                                                {{ education.suffix }}
+                                                {% else %}
+                                                %
+                                                {% endif %}
+                                                    </option>
+                                              <option>CGPA</option>
+                                            <option>Grade</option>
+                                            <option>Custom</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col"></div>
+                                    <div class="col" id="insert_percentage{{education.id}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                      <div class="row">
+                    <div class="col">
+                        <input type="hidden" name="current" value="{{education.id}}">
+                        <input type="hidden" name="modify_education" value="1">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" name="add_new" value="1" class="btn btn-primary">Add Another</button>
+                    </div>
+                    <div class="col">
+                        <button style="float:right" type="submit" name="delete" value="1" class="btn btn-primary">Delete</button>
+                </div>
+                </div>
+               </form>
+               </div>
+
+            {% endfor %}
+
+                <div class="tab-pane active" id="Edu-{{count}}">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">SCHOOL/COLLEGE NAME</h4>
+                                <input type="text" name="school_name" class="form-control" placeholder="School Name"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.school_name }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">CITY</h4>
+                                <input type="text" name="city" class="form-control" placeholder="City"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.city }}" {% endif %} required>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">STATE</h4>
+                                <input type="text" name="state" class="form-control" placeholder="State"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.state }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <h4 class="name">Degree</h4>
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01"
+                                          name="degree"
+                                         onchange="myFunction(this, 'custom_degree', 'insert_degreecount{{count}}')">
+                                            <option
+                                                  {% if not education %} disabled="disabled" {% endif %}
+                                                  selected="selected">
+                                              {% if education %}
+                                              {{ education.degree }}
+                                              {% else %}
+                                              Degree---
+                                              {% endif %}</option>
+                                            <option>Secondary School</option>
+                                            <option>Higher Secondary School</option>
+                                            <option>Diploma</option>
+                                            <option>GED</option>
+                                            <option>Associate of Arts</option>
+                                            <option>Associate of Science</option>
+                                            <option>Associate of Applied Science</option>
+                                            <option>Bachelor of Arts</option>
+                                            <option>Bachelor of Science</option>
+                                            <option>Bachelor of Commerce</option>
+                                            <option>Bachelor of Engineering</option>
+                                            <option>Bachelor of Law</option>
+                                            <option>Bachelor of Medicine</option>
+                                            <option>BBA</option>
+                                            <option>Masters of Arts</option>
+                                            <option>Master of Science</option>
+                                            <option>MBA</option>
+                                            <option>J.D</option>
+                                            <option>M.D</option>
+                                            <option>Ph.D</option>
+                                            <option>Custom</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <h4 class="name">FIELD OF STUDY</h4>
+                                        <input type="text" name="study_field" class="form-control"
+                                       placeholder="eg. Computer Science"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.study_field }}" {% endif %}>
+                            </div>
+                                </div>
+                                    <div class="row">
+                                <div class="col" id="insert_degreecount{{count}}">
+                                </div>
+                                    <div class="col">
+                                    </div>
+                            </div>
+                                </div>
+                        </div>
+
+                        <br>
+                        <div class="row">
+                                <div class="col">
+                                    <h4 class="name">GRADUATION DATE :</h4>
+                                    <div class="row">
+                                        <div class="col">
+                                    <h4 class="name">MONTH</h4>
+                                    <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect02"
+                                          name="month">
+                                            <option
+                                              {% if not education %} disabled="disabled" {% endif %}
+                                              selected="selected">
+                                              {% if education %}
+                                              {{ education.graduation_month }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                              <option>January</option>
+                                            <option>February</option>
+                                            <option>March</option>
+                                            <option>April</option>
+                                            <option>May</option>
+                                            <option>June</option>
+                                            <option>July</option>
+                                            <option>August</option>
+                                            <option>September</option>
+                                            <option>October</option>
+                                            <option>November</option>
+                                            <option>December</option>
+                                          </select>
+                                        </div>
+                                        </div>
+                                        <div class="col">
+                                            <h4 class="name">YEAR</h4>
+                                            <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect03"
+                                          name="year">
+                                            <option
+                                                {% if not education %} disabled="disabled" {% endif %} selected="selected">
+                                                {% if education %}
+                                                {{ education.graduation_year }}
+                                                {% else %}
+                                                Year
+                                                {% endif %}</option>
+                                              {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <input type="checkbox" name="present">I Presently Study.
+                                </div>
+                            </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                <h4 class="name">PERCENTAGE/GRADE</h4>
+                                <input type="text" name="percentage" class="form-control"
+                                       placeholder="eg. Computer Science"
+                                       aria-label="division" autocomplete="off"
+                                       {% if education %} value="{{ education.percentage }}" {% endif %} required>
+                            </div>
+                                    <div class="col">
+                                        <h4 class="name">SUFFIX</h4>
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect04"
+                                          name="suffix"
+                                        onchange="myFunction(this, 'custom_percentage', 'insert_percentagecount{{count}}', '')" >
+                                            <option
+                                                selected="selected">
+                                                    {% if education %}
+                                                {{ education.suffix }}
+                                                {% else %}
+                                                %
+                                                {% endif %}
+                                                    </option>
+                                              <option>CGPA</option>
+                                            <option>Grade</option>
+                                            <option>Custom</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col"></div>
+                                    <div class="col" id="insert_percentagecount{{count}}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                      <div class="row">
+                    <div class="col">
+                        <input type="hidden" name="modify_education" value="1">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" name="add_new" value="1" class="btn btn-primary">Add Another</button>
+                    </div>
+                    <div class="col">
+                        <button style="float:right" type="submit" name="delete" value="1" class="btn btn-primary">Delete</button>
+                </div>
+                </div>
+               </form>
+                </div>
+            </div>
+            <hr class="line">
+            <br>
+        </div>
+                </div>
+
+                <div class="tab-pane fade" id="v-pills-project" role="tabpanel" aria-labelledby="v-pills-project-tab">
+                  <div class="container2">
+                    <br>
+
+                <ul class="nav nav-tabs" role="tablist">
+                    {% for tabs in projects %}
+                  <li class="nav-tabs-li"><a href="#{{ tabs.id }}" role="tab" data-toggle="tab">
+                      <button class="btn btn-primary" style="margin-right:10px;">{{tabs.title}}</button></a></li>
+                    {% endfor %}
+                    <li class="nav-tabs-li active"><a href="#pro-{{count}}" role="tab" data-toggle="tab">
+                      <button class="btn btn-primary" style="margin-right:10px;">Project-{{count}}</button></a></li>
+                </ul>
+            <div class="tab-content">
+                <br>
+                {% for project in projects %}
+                  <div class="tab-pane" id="{{ project.id }}">
+                       <form method="post">
+                        {% csrf_token %}
+                    <div class="row">
+                            <div class="col">
+                                <h4 class="name">TITLE</h4>
+                                <input type="text" name="title" class="form-control" placeholder="Project Title"
+                                       aria-label="division" autocomplete="off"
+                                       {% if project %} value="{{ project.title }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">START DATE</h4>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect03" name="month_start">
+                                            <option
+                                                  {% if not project %} disabled="disabled" {% endif %} selected="selected">
+                                              {% if project %}
+                                              {{ project.month_start }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                            <option>January</option>
+                                          <option>February</option>
+                                          <option>March</option>
+                                          <option>April</option>
+                                          <option>May</option>
+                                          <option>June</option>
+                                          <option>July</option>
+                                          <option>August</option>
+                                          <option>September</option>
+                                          <option>October</option>
+                                          <option>November</option>
+                                          <option>December</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect04" name="year_start">
+                                            <option {% if not project %}
+                                                disabled="disabled" {% endif %} selected="selected">
+                                              {% if project %}
+                                              {{ project.year_start }}
+                                              {% else %}
+                                              Year
+                                              {% endif %}</option>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">END DATE</h4>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01" name="month_end">
+                                            <option
+                                                  {% if not project %} disabled="disabled" {% endif %} selected="selected">
+                                              {% if project %}
+                                              {{ project.month_end }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                            <option>January</option>
+                                          <option>February</option>
+                                          <option>March</option>
+                                          <option>April</option>
+                                          <option>May</option>
+                                          <option>June</option>
+                                          <option>July</option>
+                                          <option>August</option>
+                                          <option>September</option>
+                                          <option>October</option>
+                                          <option>November</option>
+                                          <option>December</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect02" name="year_end">
+                                            <option {% if not project %}
+                                                disabled="disabled" {% endif %} selected="selected">
+                                              {% if project %}
+                                              {{ project.year_end }}
+                                              {% else %}
+                                              Year
+                                              {% endif %}</option>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="checkbox" name="present">I Presently Work.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                  <h4>PROJECT DESCRIPTION</h4>
+                                  <textarea id="text-area" class="form-control" name="description"
+                                            rows="5" required>{% if project %}{{ project.description }}{% endif %}
+                        </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                      <div class="row">
+                    <div class="col">
+                        <input type="hidden" name="current" value="{{project.id}}">
+                        <input type="hidden" name="modify_project" value="1">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" name="add_new" value="1" class="btn btn-primary">Add Another</button>
+                    </div>
+                    <div class="col">
+                        <button style="float:right" type="submit" name="delete" value="1" class="btn btn-primary">Delete</button>
+                </div>
+                </div>
+               </form>
+               </div>
+
+            {% endfor %}
+
+                <div class="tab-pane active" id="pro-{{count}}">
+                    <form method="post">
+                        {% csrf_token %}
+                    <div class="row">
+                            <div class="col">
+                                <h4 class="name">TITLE</h4>
+                                <input type="text" name="title" class="form-control" placeholder="Project Title"
+                                       aria-label="division" autocomplete="off"
+                                       {% if project %} value="{{ project.title }}" {% endif %} required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="name">START DATE</h4>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect03" name="month_start">
+                                            <option
+                                                  {% if not project %} disabled="disabled" {% endif %} selected="selected">
+                                              {% if project %}
+                                              {{ project.month_start }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                            <option>January</option>
+                                          <option>February</option>
+                                          <option>March</option>
+                                          <option>April</option>
+                                          <option>May</option>
+                                          <option>June</option>
+                                          <option>July</option>
+                                          <option>August</option>
+                                          <option>September</option>
+                                          <option>October</option>
+                                          <option>November</option>
+                                          <option>December</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect04" name="year_start">
+                                            <option {% if not project %}
+                                                disabled="disabled" {% endif %} selected="selected">
+                                              {% if project %}
+                                              {{ project.year_start }}
+                                              {% else %}
+                                              Year
+                                              {% endif %}</option>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h4 class="name">END DATE</h4>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01" name="month_end">
+                                            <option
+                                                  {% if not project %} disabled="disabled" {% endif %} selected="selected">
+                                              {% if project %}
+                                              {{ project.month_end }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                            <option>January</option>
+                                          <option>February</option>
+                                          <option>March</option>
+                                          <option>April</option>
+                                          <option>May</option>
+                                          <option>June</option>
+                                          <option>July</option>
+                                          <option>August</option>
+                                          <option>September</option>
+                                          <option>October</option>
+                                          <option>November</option>
+                                          <option>December</option>
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect02" name="year_end">
+                                            <option {% if not project %}
+                                                disabled="disabled" {% endif %} selected="selected">
+                                              {% if project %}
+                                              {{ project.year_end }}
+                                              {% else %}
+                                              Year
+                                              {% endif %}</option>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="checkbox" name="present">I Presently Work.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                  <h4>PROJECT DESCRIPTION</h4>
+                                  <textarea id="text-area" class="form-control" name="description"
+                                            rows="5" required>{% if project %}{{ project.description }}{% endif %}
+                        </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    <div class="row">
+                    <div class="col">
+                        <input type="hidden" name="modify_project" value="1">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" name="add_new" value="1" class="btn btn-primary">Add Another</button>
+                    </div>
+                    <div class="col">
+                        <button  style="float:right" type="submit" name="delete" value="1" class="btn btn-primary">Delete</button>
+                    </div>
+                </div>
+                    </form>
+                </div>
+            </div>
+            <hr class="line">
+
+            <br>
+        </div>
+
+                </div>
+                  <div class="tab-pane fade" id="v-pills-technical_skills" role="tabpanel" aria-labelledby="v-pills-technical_skills-tab">
+                  <div class="container2">
+            <br>
+
+            {% if t_count == 1 %}
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" value="1" name="new">
+                {% for i in counter %}
+                <div class="row">
+                    <div class="col">
+                        <input type="text" name="name{{i}}" class="form-control" placeholder="eg. Python, HTML"
+                                           aria-label="division" autocomplete="off"
+                        {% if i == 1 %}
+                        required
+                        {% endif %}>
+                    </div>
+                    <div class="col">
+                        <div class="input-group">
+                          <select class="custom-select" id="inputGroupSelect02" name="level{{i}}">
+                            <option selected="selected" disabled="disabled">Level--</option>
+                            <option value="1">&#9733;-Noice</option>
+                              <option value="2">&#9733;&#9733;-Beginner</option>
+                              <option value="3">&#9733;&#9733;&#9733;-Skillful</option>
+                              <option value="4">&#9733;&#9733;&#9733;&#9733;-Experienced</option>
+                              <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;-Expert</option>
+                          </select>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+                <div class="row">
+                    <div class="col">
+                        <input type="hidden" name="modify_technical_skills" value="1">
+                        <button style="float:right;" type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+
+            {% else %}
+            {% for skill in tech_skills %}
+            <form method="post">
+            <div class="row">
+                    {% csrf_token %}
+                    <div class="col">
+                        <input type="text" name="name" class="form-control" placeholder="eg. Python, HTML"
+                                           aria-label="division" autocomplete="off"
+                                           {% if skill %} value="{{ skill.skill_name }}" {% endif %} required>
+                    </div>
+                    <div class="col">
+                        <div class="input-group">
+                          <select class="custom-select" id="inputGroupSelect02" name="level">
+                            <option
+                                  {% if not skill %} disabled="disabled" {% endif %} selected="selected"
+                            {% if skill %}
+                              {% if skill.level == 1 %}
+                                value="1"
+                              {% elif skill.level == 2 %}
+                                value="2"
+                                {% elif skill.level == 3 %}
+                                value="3"
+                                {% elif skill.level == 4 %}
+                                value="4"
+                                {% elif skill.level == 5 %}
+                                value="5"
+                               {% endif %}
+                                  {% endif %}
+                            >
+                              {% if skill %}
+                              {% if skill.level == 1 %}
+                                &#9733;-Noice
+                              {% elif skill.level == 2 %}
+                                &#9733;&#9733;-Beginner
+                                {% elif skill.level == 3 %}
+                                &#9733;&#9733;&#9733;-Skillful
+                                {% elif skill.level == 4 %}
+                                &#9733;&#9733;&#9733;&#9733;-Experienced
+                                {% elif skill.level == 5 %}
+                                &#9733;&#9733;&#9733;&#9733;&#9733;-Expert
+                               {% endif %}
+                              {% else %}
+                              Level--
+                              {% endif %}</option>
+                            <option value="1">&#9733;-Noice</option>
+                              <option value="2">&#9733;&#9733;-Beginner</option>
+                              <option value="3">&#9733;&#9733;&#9733;-Skillful</option>
+                              <option value="4">&#9733;&#9733;&#9733;&#9733;-Experienced</option>
+                              <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;-Expert</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <input type="hidden" value="{{skill.id}}" name="current">
+                        <input type="hidden" name="modify_technical_skills" value="1">
+                        <button type="submit"
+                                class="btn btn-primary" value="1" name="add_new">Edit</button>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary"
+                         value="1" name="delete">Delete</button>
+                    </div>
+                </div>
+                <br>
+            </form>
+            {% endfor %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        <input type="text" name="name" onfocusout="button_available(this)" class="form-control" id="new_skill" placeholder="eg. Python, HTML"
+                                           aria-label="division" autocomplete="off"
+                                           {% if tech_skill %} value="{{ tech_skill.skill_name }}" {% endif %}>
+                    </div>
+                    <div class="col">
+                        <div class="input-group">
+                          <select class="custom-select" id="inputGroupSelect02" name="level">
+                            <option
+                                  {% if not tech_skill %} disabled="disabled" {% endif %} selected="selected">
+                              {% if tech_skill %}
+                              {{ tech_skill.level }}
+                              {% else %}
+                              Level--
+                              {% endif %}</option>
+                            <option value="1">&#9733;-Noice</option>
+                                  <option value="2">&#9733;&#9733;-Beginner</option>
+                                  <option value="3">&#9733;&#9733;&#9733;-Skillful</option>
+                                  <option value="4">&#9733;&#9733;&#9733;&#9733;-Experienced</option>
+                                  <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;-Expert</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="col"></div>
+                    <div class="col">
+                        <input type="hidden" name="modify_technical_skills" value="1">
+                        <button type="submit" class="btn btn-primary"
+                        name="add_new" value="1" id="add_another" disabled="disabled">Save</button>
+                    </div>
+                </div>
+             </form>
+
+            {% endif %}
+        </div>
+
+                  </div>
+                  <div class="tab-pane fade" id="v-pills-soft_skills" role="tabpanel" aria-labelledby="v-pills-soft_skills-tab">
+                  <div class="container2">
+            <br>
+            {% if s_count == 1 %}
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" value="1" name="new">
+                {% for i in counter %}
+                <div class="row">
+                    <div class="col">
+                        <input type="text" name="name{{i}}" class="form-control" placeholder="eg.Teamwork"
+                                           aria-label="division" autocomplete="off"
+                        {% if i == 1 %}
+                        required
+                        {% endif %}>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="description{{i}}" class="form-control" placeholder="Describe it"
+                                           aria-label="division" autocomplete="off">
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+                <div class="row">
+                    <div class="col">
+                        <input type="hidden" name="modify_soft_skills" value="1">
+                        <button style="float:right;" type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+
+            {% else %}
+            {% for skill in soft_skills %}
+            <form method="post">
+            <div class="row">
+                    {% csrf_token %}
+                    <div class="col">
+                        <input type="text" name="name" class="form-control" placeholder="eg. Teamwork"
+                                           aria-label="division" autocomplete="off"
+                                           {% if skill %} value="{{ skill.skill_name }}" {% endif %} required>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="description" class="form-control" placeholder="Describe it"
+                                           aria-label="division" autocomplete="off"
+                               {% if skill %} value="{{ skill.description }}" {% endif %} required>
+                    </div>
+                    <div class="col">
+                        <input type="hidden" value="{{skill.id}}" name="current">
+                        <input type="hidden" name="modify_soft_skills" value="1">
+                        <button type="submit"
+                                class="btn btn-primary" value="1" name="add_new">Edit</button>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary"
+                         value="1" name="delete">Delete</button>
+                    </div>
+                </div>
+                <br>
+            </form>
+            {% endfor %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        <input type="text" name="name" onfocusout="button_available(this)" class="form-control"
+                               id="new_skill" placeholder="eg. Teamwork"
+                                           aria-label="division" autocomplete="off"
+                                           {% if tech_skill %} value="{{ tech_skill.skill_name }}" {% endif %}>
+                    </div>
+                    <div class="col">
+                        <input type="text" name="description" class="form-control" placeholder="Describe it"
+                                           aria-label="division" autocomplete="off"
+                               {% if skill %} value="{{ skill.description }}" {% endif %} required>
+                    </div>
+                    <div class="col"></div>
+                    <div class="col">
+                        <input type="hidden" name="modify_soft_skills" value="1">
+                        <button type="submit" class="btn btn-primary"
+                        name="add_new" value="1">Add Another</button>
+                    </div>
+                </div>
+             </form>
+
+            {% endif %}
+        </div>
+
+                </div>
+                  <div class="tab-pane fade" id="v-pills-custom" role="tabpanel" aria-labelledby="v-pills-custom-tab">
+                  <div class="container2">
+            <br>
+
+            {% for field in custom_fields %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        <h4 class="name">FIELD TITLE</h4>
+                        <input type="text" name="field" class="form-control" placeholder="eg.Accomplishment"
+                                           aria-label="division" autocomplete="off"
+                                           {% if field %} value="{{ field.field_title }}" {% endif %} required>
+                    </div>
+                </div>
+                <br>
+            <div class="row">
+                    <div class="col">
+                        <h4 class="name">TITLE</h4>
+                        <input type="text" name="header" class="form-control" placeholder="eg. Research Paper"
+                                           aria-label="division" autocomplete="off"
+                                           {% if field %} value="{{ field.header }}" {% endif %} required>
+                    </div>
+                    <div class="col">
+                        <h4 class="name">DESCRIPTION</h4>
+                        <input type="text" name="description" class="form-control" placeholder="Describe it"
+                                           aria-label="division" autocomplete="off"
+                               {% if field %} value="{{ field.description }}" {% endif %} required>
+                    </div>
+                <div class="col">
+                    <h4 class="name">Month</h4>
+                    <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01" name="month">
+                                            <option
+                                                  {% if not field %} disabled="disabled" {% endif %} selected="selected">
+                                              {% if field %}
+                                              {{ field.month }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                            <option>January</option>
+                                          <option>February</option>
+                                          <option>March</option>
+                                          <option>April</option>
+                                          <option>May</option>
+                                          <option>June</option>
+                                          <option>July</option>
+                                          <option>August</option>
+                                          <option>September</option>
+                                          <option>October</option>
+                                          <option>November</option>
+                                          <option>December</option>
+                                          </select>
+                                        </div>
+                </div>
+                <div class="col">
+                    <h4 class="name">Year</h4>
+                    <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect02" name="year">
+                                            <option {% if not field %}
+                                                disabled="disabled" {% endif %} selected="selected">
+                                              {% if field %}
+                                              {{ field.year }}
+                                              {% else %}
+                                              Year
+                                              {% endif %}</option>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                </div>
+            </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col">
+                        <input type="hidden" value="{{field.id}}" name="current">
+                                <input type="hidden" value="1" name="modify_custom">
+                        <button type="submit"
+                                class="btn btn-primary" value="1" name="add_new">Edit</button>
+                        <button type="submit" class="btn btn-primary"
+                         value="1" style="float:right" name="delete">Delete</button>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+             </form>
+                      <hr>
+            {% endfor %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        <h4 class="name">FIELD TITLE</h4>
+                        <input type="text" name="field" class="form-control" placeholder="eg.Accomplishment"
+                                           aria-label="division" autocomplete="off"
+                                           {% if field %} value="{{ field.field_title }}" {% endif %} required>
+                    </div>
+                </div>
+                <br>
+            <div class="row">
+                    <div class="col">
+                        <h4 class="name">TITLE</h4>
+                        <input type="text" name="header" class="form-control" placeholder="eg. Research Paper"
+                                           aria-label="division" autocomplete="off"
+                                           {% if field %} value="{{ field.header }}" {% endif %} required>
+                    </div>
+                    <div class="col">
+                        <h4 class="name">DESCRIPTION</h4>
+                        <input type="text" name="description" class="form-control" placeholder="Describe it"
+                                           aria-label="division" autocomplete="off"
+                               {% if field %} value="{{ field.description }}" {% endif %} required>
+                    </div>
+                <div class="col">
+                    <h4 class="name">Month</h4>
+                    <div class="input-group mb-3">
+                                          <select class="custom-select" id="inputGroupSelect01" name="month">
+                                            <option
+                                                  {% if not field %} disabled="disabled" {% endif %} selected="selected">
+                                              {% if field %}
+                                              {{ field.month }}
+                                              {% else %}
+                                              Month
+                                              {% endif %}</option>
+                                            <option>January</option>
+                                          <option>February</option>
+                                          <option>March</option>
+                                          <option>April</option>
+                                          <option>May</option>
+                                          <option>June</option>
+                                          <option>July</option>
+                                          <option>August</option>
+                                          <option>September</option>
+                                          <option>October</option>
+                                          <option>November</option>
+                                          <option>December</option>
+                                          </select>
+                                        </div>
+                </div>
+                <div class="col">
+                    <h4 class="name">Year</h4>
+                    <div class="input-group">
+                                          <select class="custom-select" id="inputGroupSelect02" name="year">
+                                            <option {% if not field %}
+                                                disabled="disabled" {% endif %} selected="selected">
+                                              {% if field %}
+                                              {{ field.year }}
+                                              {% else %}
+                                              Year
+                                              {% endif %}</option>
+                                            {% for i in year %}<option value="{{i}}">{{i}}</option>{% endfor %}
+                                          </select>
+                                        </div>
+                </div>
+            </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col"></div>
+                            <div class="col"></div>
+                            <div class="col">
+                                <input type="hidden" value="1" name="modify_custom">
+                                <button type="submit" class="btn btn-primary"
+                        name="add_new" value="1" style="float:right;">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </form>
+        </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'js/create_resume_base.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/create_resume.js' %}"></script>
+
+</body>
+</html>

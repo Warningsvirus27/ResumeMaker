@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 import base64
 from django.contrib import messages
@@ -12,7 +13,12 @@ User = get_user_model()
 
 
 def login(request):
+    next_page = {'next_page': request.GET.get('next')}
+
     if request.method == 'POST':
+        next_page_from_form = request.POST.get('next')
+        if not next_page_from_form:
+            next_page_from_form = ''
         email = request.POST.get("email").strip().lower()
         checkbox = request.POST.get("forgot")
 
@@ -22,7 +28,7 @@ def login(request):
         password = request.POST.get("password")
         if not password:
             messages.error(request, 'Please input your password')
-            return redirect('login')
+            return render(request, 'html/login.html', next_page)
 
         try:
             user = User.objects.get(email=email)
@@ -31,16 +37,20 @@ def login(request):
                 user = auth.authenticate(request, email=email, password=password)
                 if user is not None:
                     auth.login(request, user)
-                    return redirect('home')
+
+                    if next_page_from_form:
+                        return redirect(next_page_from_form)
+                    else:
+                        return redirect('home')
                 else:
                     messages.error(request, 'Wrong Password!!')
                     messages.error(request, 'Please enter it again!!')
-                    return redirect('login')
+                    return render(request, 'html/login.html', next_page)
         except User.DoesNotExist:
             messages.error(request, 'User Does Not Exist!!')
-            return render(request, 'html/login.html')
+            return render(request, 'html/login.html', next_page)
     else:
-        return render(request, 'html/login.html')
+        return render(request, 'html/login.html', next_page)
 
 
 def logout(request):

@@ -1,0 +1,429 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--<link rel="stylesheet" href="{% static 'resume/css/first_temp.css' %}">-->
+    <title>template</title>
+    <style>
+        @page {
+    size: 7in 9.25in;
+    margin: 27mm 16mm 27mm 16mm;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+background-repeat: no-repeat;
+}
+#temp1 {
+    display: flex;
+    position: relative;
+    width:60vw;
+}
+#left,
+#right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#left {
+    position: relative;
+    background-color: black;
+}
+
+#image {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 10% auto;
+    border: 2px solid white;
+    width: 80%;
+    height: 12%;
+    border-radius: 50%;
+}
+.contact,.language{
+    background:conic-gradient(orange 0deg 180deg,white 180deg 360deg);
+    color:red;
+    font-weight: bold;
+    margin-top: 8%;
+    margin-right: 8%;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+.contact p,.language p{
+    margin-left: 2%;
+}
+#left ul{
+    display: inline-block;
+    width: 80%;
+    word-wrap: break-word;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+#left .con{
+    margin-top: 8%;
+    font-size: 64%;
+    color:beige;
+    list-style-type: none;
+    margin-left: 3%;
+    margin-right: 0;
+}
+i{
+    padding: 0%;
+    margin-right: 5%;
+    display: inline;
+    color: aliceblue;
+    width: 10px;
+}
+#lan li{
+    margin-top: 8%;
+margin-left: 15%;
+color: aliceblue;
+list-style-type: decimal;
+font-size: 70%;
+}
+#left_d{
+    position: absolute;
+    bottom: 0%;
+}
+#left_l{
+    position: absolute;
+    bottom: 10%;
+    left: -32%;
+    height: 5%;
+    transform: rotate(90deg);
+}
+#right{
+    flex: 1.5;
+    word-wrap: break-word;
+    height: fit-content;
+    border-right:1px solid black ;
+    border-bottom: 1px solid black;
+}
+#right .p{
+    font-size:120%;
+    font-weight: bold;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.right_top{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+}
+#right img{
+    margin-bottom:-4%;
+}
+h3{
+    margin-top: 3%;
+    margin-left: 2%;
+    margin-bottom: 3%;
+}
+#right p{
+    font-size:80% ;
+    margin-left: 4%;
+}
+#right ul{
+    margin-left: 9%;
+    font-size: 90%;
+    font-weight: 200;
+}
+#right ul li{
+    padding: 1.6%;
+}
+#right #skill{
+    margin-top: 5%;
+    margin-left: 5%;
+}
+#right i{
+    color: black;
+}
+#right pre{
+    font-size:150%;
+}
+#right .skills{
+    margin-bottom: 4%;
+    width: 90%;
+    background-color: rgb(169, 170, 167);
+    height:1vh;
+    border-radius: 7px;
+}
+.skills_g{
+    height: 100%;
+    background-color: yellow;
+}
+.skills_g1{
+    width: 70%;
+    height: 100%;
+    background-color: yellow;
+}
+.experience{
+    color: black;
+}
+.experience i{
+    font-size:9px;
+}
+@media (min-width:900px){
+    #temp1 {
+        width:45vw;
+
+    }
+    #right{
+        flex: 2;
+    }
+}
+.right_top_image{
+position: relative;
+top: -40px;
+}
+.right_bottom_image{
+position: relative;
+top: -40px;
+}
+.move_up{
+position: relative;
+top: -40px;
+}
+.row {width:100%;padding:20px 0;}
+    </style>
+</head>
+
+<body>
+    <div id="temp1">
+        <div id="left">
+            <div id="image" {% if personal_info %}style="background-image: url(media/{{ personal_info.image }}");{% endif %}></div>
+            <div class="contact">
+                <p>CONTACT</p>
+            </div>
+            <ul>
+                <li class="con"><h3 style="white-space: nowrap"><i class="fa-solid fa-envelope"></i>{% if personal_info %}{{personal_info.email}}{% endif %}</h3></li>
+                <li class="con"><h3><i class="fa-solid fa-earth-americas"></i>{% if personal_info %}{{personal_info.country}}{% endif %}</h3></li>
+                <li class="con"><h3><i class="fa-solid fa-location-dot"></i>{% if personal_info %}{{personal_info.address}}{% endif %}</h3></li>
+                <li class="con"><h3><i class="fa-solid fa-tree-city"></i>{% if personal_info %}{{personal_info.city}}-{{personal_info.pin_code}}{% endif %}</h3></li>
+                <li class="con"><h3><i class="fa-solid fa-phone"></i>{% if personal_info %}{{personal_info.phone_number}}{% endif %}</h3></li>
+            </ul>
+
+
+            {% if tech_skills %}
+            <div class="language">
+                <p>TECHNICAL SKILLS</p>
+            </div>
+            <ul id="lan">
+            <div id="skill">
+                {% for skill in tech_skills %}
+                <li><h3>
+                    <pre><i class="fa-brands fa-accusoft"></i>{{skill.skill_name}}</pre>
+                </h3>
+
+                {% if skill.level %}
+                <div class="skills">
+                    <div class="skills_g" style="width:{% widthratio skill.level 1 20 %}%">
+                        <pre> </pre>
+                    </div>
+                </div>
+                </li>
+                {% else %}
+                <hr style="border: 1px dashed white;margin-left:30%;margin-right:30%;">
+                <br>
+                {% endif %}
+                {% endfor %}
+            </div>
+                {% endif %}
+            </ul>
+
+            {% if download %}
+            <img id="left_d" src="{{ STATIC_ROOT }}/wave.svg" alt="">
+            {% else %}
+            <img id="left_d" src="{% static 'resume/html/wave.svg' %}" alt="">
+            {% endif %}
+        </div>
+        {{ STATIC_ROOT }}
+        <div id="right">
+            {% if download %}
+            <img src="{{ STATIC_ROOT }}/r_b1.svg" alt="">
+            {% else %}
+            <img src="{% static 'resume/html/r_b1.svg' %}" alt="">
+            {% endif %}
+            <div class="right_top">
+                <p class="p"><h1 style="font-size:40px;">{% if personal_info %}{{personal_info.first_name}} {{personal_info.last_name}}{% endif %}</h1></p>
+            </div>
+            <hr>
+
+            {% if download %}
+            <img src="{{ STATIC_ROOT }}/right_2.svg" alt="" class="right_top_image">
+            {% else %}
+            <img src="{% static 'resume/html/right_2.svg' %}" alt="" class="right_top_image">
+            {% endif %}
+            {% if download %}
+            <img src="{{ STATIC_ROOT }}/right_1.svg" alt="" class="right_bottom_image">
+            {% else %}
+            <img src="{% static 'resume/html/right_1.svg' %}" alt="" class="right_bottom_image">
+            {% endif %}
+            <div class="move_up">
+                {% if personal_info %}
+            <div id="obj" style="margin-left:5px;margin-right:5px;">
+                <h3>SUMMARY:</h3>
+                <span style="margin-left:5%;">{{ personal_info.summary }}</span>
+            </div>
+                <br>
+                <hr>
+                {% endif %}
+
+            {% if experience %}
+            <div class="experience">
+                <h3>EXPERIENCE:</h3>
+
+                {% for exp in experience %}
+                <h4 style="margin-left: 6%;">{{ exp.employer }}</h4>
+
+                <div>
+                    <span style="margin-left:15%;">{{ exp.job_title }}</span>
+
+                    {% if exp.month_start and exp.year_start and exp.month_end and exp.year_end %}
+                    <div style="float:right;white-space: nowrap;margin-right:10px;">
+                            <p style="white-space: nowrap">({{ exp.month_start }}-{{ exp.year_start }})-({{ exp.month_end }}-{{ exp.year_end }})</p>
+                        <p style="white-space: nowrap">{{ exp.city }} - {{ exp.state }}</p>
+                    </div>
+
+                    {% endif %}
+                </div>
+                <br>
+                <br>
+                <h4 style="margin-left: 6%;">Job Description:-</h4>
+                <p style="margin-left:15%;">{{ exp.job_description }}</p>
+                <hr style="border: 1px dashed black;margin-left:30%;margin-right:30%;">
+                <br>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if education %}
+            <div id="education">
+                <h3>EDUCATION:</h3>
+                {% for edu in education %}
+                <ul>
+                    <div>
+                    <h4>{{edu.degree}}-{{edu.study_field}}</h4>
+
+                    {% if edu.graduation_month and edu.graduation_year %}
+                    <div style="float:right;white-space: nowrap;margin-right:10px;">
+                            <p style="white-space: nowrap">{{ edu.graduation_month }}-{{ edu.graduation_year }}ok</p>
+                    </div>
+                    {% endif %}
+                    </div>
+
+                    <li>{{ edu.school_name }}</li>
+                    <li>{{ edu.city }}-{{edu.state}}</li>
+                    <li>{{edu.percentage}} {{edu.suffix}}</li>
+                </ul>
+                <hr style="border: 1px dashed black;margin-left:30%;margin-right:30%;">
+                <br>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+
+            {% if project %}
+                <div class="experience">
+                <h3>PROJECT:</h3>
+                {% for pro in project %}
+                <div>
+                    <h4 style="margin-left: 6%;">{{ pro.title }}</h4>
+                    {% if pro.month_start and pro.year_start and pro.month_end and pro.year_end %}
+                    <div style="float:right;white-space: nowrap;margin-right:10px;">
+                            <p style="white-space: nowrap">({{ pro.month_start }}-{{ pro.year_start }})-({{ pro.month_end }}-{{ pro.year_end }})</p>
+                    </div>
+                    {% endif %}
+                </div>
+                <br>
+                <h4 style="margin-left: 15%;">Project Description:-</h4>
+                <p style="margin-left:15%;">{{ pro.description }}</p>
+                <hr style="border: 1px dashed black;margin-left:30%;margin-right:30%;">
+                <br>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+
+
+                {% if soft_skills %}
+                <h3>MY SKILLS:</h3>
+            <div id="skill">
+                <h4>Soft Skills</h4>
+                {% for skill in soft_skills %}
+                <h5>
+                    <pre>&#8226; {{skill.skill_name}}</pre>
+                </h5>
+                {% if skill.description %}
+                <p style="margin-left:15%;">{{ skill.description }}</p>
+                {% else %}
+                <hr style="border: 1px dashed black;margin-left:30%;margin-right:30%;">
+                <br>
+                {% endif %}
+                {% endfor %}
+            </div>
+                {% endif %}
+
+                {% if custom %}
+                <br>
+                <hr style="border: 1px dashed black;margin-left:20%;margin-right:20%;">
+                {% for field in custom %}
+            <div id="skill">
+                <h4>{{field.field_title}}</h4>
+                <div class="">
+                     <h5>
+                    <pre>{{field.header}}</pre>
+                </h5>
+                    {% if field.month and field.year %}
+                    <div style="float:right;white-space: nowrap;margin-right:10px;">
+                            <p style="white-space: nowrap">{{ field.month }}-{{ field.year }}</p>
+                    </div>
+
+                    {% endif %}
+                    <h5 style="margin-left:15px;margin-right:15px;">- {{field.description}}</h5>
+                </div>
+
+            </div>
+                {% endfor %}
+                {% endif %}
+
+            </div>
+
+
+            {% if qr_code %}
+            <hr>
+            <br>
+            <div class="qr">
+
+                <p style="float:right;">Click the link or scan the Qr Code to view User's Documents</p>
+                <img style="float: right;width:20%;margin:0% 0% 0% 0%;" src="{% static 'images/qrcode/' %}{{qr_code}}">
+                <p><a style="float: right;white-space: nowrap;" href="{{qr_code}}/doc">{{qr_code}}/doc</a></p>
+            </div>
+            <br>
+                {% endif %}
+
+
+        </div>
+    </div>
+{% if resume and template_name %}
+<a href="{% url 'download' resume=resume template_name=template_name %}">
+    <button type="submit">Download</button>
+</a>
+{% endif %}
+</body>
+<script src="https://kit.fontawesome.com/f7753b4128.js" crossorigin="anonymous"></script>
+
+</html>

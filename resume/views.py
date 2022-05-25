@@ -1,22 +1,87 @@
+from io import BytesIO
+from PIL import Image
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import get_user_model
+from django.contrib import messages
+from xhtml2pdf import pisa
+from django.http import HttpResponse
+from django.template.loader import get_template
 from .helper import *
 
 
 def homepage(request):
-    if request.user.is_authenticated:
-        return render(request, 'html/homepage.html')
+    return render(request, 'html/home.html')
+
+
+@login_required(redirect_field_name='next', login_url='login')
+def template_edit(request):
+    UserModel = get_user_model()
+    try:
+        current_user = UserModel.objects.get(email=request.user)
+    except UserModel.DoesNotExist:
+        messages.error(request, f'User with {request.user} does not exist or may have been deleted')
+        messages.error(request, 'We are sorry for the inconvenience')
+        return render(request, 'html/error_page.html')
+
+    content = {}
+    resumes = Resume.objects.filter(user_id=current_user)
+    for index, i in enumerate(resumes):
+        try:
+            personal_info = PersonalInformation.objects.get(resume=i)
+            experience_info = Experience.objects.filter(resume=i)
+            education_info = Education.objects.filter(resume=i)
+
+            content[index] = {
+                'name': personal_info.first_name + ' ' + personal_info.last_name,
+                'email': personal_info.email,
+                'phone_number': personal_info.phone_number,
+                'education': [i.school_name for i in education_info],
+                'experience': [i.job_title for i in experience_info],
+                'resume': i
+            }
+        except PersonalInformation.DoesNotExist:
+            i.delete()
+
+    return render(request, 'html/user_resume.html', {'data': content, 'edit': 1})
+
+
+@login_required(redirect_field_name='next', login_url='login')
+def edit(request, resume_id=None):
+    if request.POST.get('modify_personal_info'):
+        get_personal_info(request, resume_id)
+    elif request.POST.get('modify_experience'):
+        get_experience(request, resume_id)
+    elif request.POST.get('modify_education'):
+        get_education(request, resume_id)
+    elif request.POST.get('modify_project'):
+        get_projects(request, resume_id)
+    elif request.POST.get('modify_technical_skills'):
+        get_technical_skills(request, resume_id)
+    elif request.POST.get('modify_soft_skills'):
+        get_soft_skills(request, resume_id)
+    elif request.POST.get('modify_custom'):
+        get_custom(request, resume_id)
+
+    content = get_models_data(request, resume_id)
+    content['resume'] = resume_id
+    content['year'] = year_list()
+
+    content['counter'] = [1, 2, 3]
+    if not content.get('tech_skills'):
+        content['t_count'] = 1
     else:
-        return HttpResponse('Invalid entry')
+        content['t_count'] = len(content['tech_skills']) + 1
+
+    if not content.get('soft_skills'):
+        content['s_count'] = 1
+    else:
+        content['s_count'] = len(content['soft_skills']) + 1
+
+    return render(request, 'html/modify.html', content)
 
 
-def template_edit(request, template_id=None):
-    user = request.user
-    data = {'mail': user.get_username(), 'name': user.get_full_name()}
-
-    return render(request, 'html/srt-resume.html', data)
-
-
+@login_required(redirect_field_name='next', login_url='login')
 def create_new_resume(request):
     if request.user.is_authenticated:
         UserModel = get_user_model()
@@ -34,6 +99,7 @@ def create_new_resume(request):
         return render(request, 'html/error_page.html')
 
 
+@login_required(redirect_field_name='next', login_url='login')
 def create_resume(request, resume_id=None, field=None):
     content = {'email': request.user, 'resume': resume_id, 'year': year_list()}
     if request.user.is_authenticated:
@@ -112,12 +178,17 @@ def create_resume(request, resume_id=None, field=None):
                 else:
                     content['count'] = len(content['custom_fields']) + 1
                 content.update(get_models_tick(request, resume_id))
+                return render(request, 'html/create_resume_custom.html', content)
+
             elif field == 'view_template':
                 content.update(get_models_tick(request, resume_id))
+                resume_instance = get_resume_instance(request, resume_id)
+                resume_instance.status = 'Complete'
+                resume_instance.save()
+                return render(request, 'html/choose_template.html', content)
 
-                return render(request, 'html/template_html.html', content)
-
-            return render(request, 'html/create_resume_custom.html', content)
+            messages.error(request, "Something went Wrong Please Try again!!")
+            return redirect('home')
 
         if request.method == "POST":
             if field == "personal_info":
@@ -192,6 +263,7 @@ def get_personal_info(request, resume):
                                                       phone_number=phone_number, image=image,
                                                       summary=summary)
             personal_info_model.save()
+
         return
 
 
@@ -216,15 +288,6 @@ def get_experience(request, resume):
             month_end = current_date.strftime('%B')
             year_end = current_date.year
 
-        if month_start and year_start and month_end and year_end:
-            pass
-        elif month_start or year_start or month_end or year_end:
-            messages.error(request, "please input all Start Date-Year and Ending Date-Year")
-            messages.error(request, "Single input will not be considered!!")
-            return 'experience'
-        else:
-            month_start, year_start, month_end, year_end = None, None, None, None
-
         resume_instance = get_resume_instance(request, resume)
 
         try:
@@ -236,10 +299,18 @@ def get_experience(request, resume):
                 experience_model.job_title = job_title
                 experience_model.city = city
                 experience_model.state = state
-                experience_model.month_start = month_start
-                experience_model.year_start = year_start
-                experience_model.month_end = month_end
-                experience_model.year_end = year_end
+
+                if month_start and month_end and year_end and year_start:
+                    if month_start != 'None' and year_start != 'None' and month_end != 'None' and year_end != 'None':
+                        experience_model.month_start = month_start
+                        experience_model.year_start = year_start
+                        experience_model.month_end = month_end
+                        experience_model.year_end = year_end
+                elif month_start or year_start or month_end or year_end:
+                    messages.error(request, "please input all Start Date-Year and Ending Date-Year")
+                    messages.error(request, "Single input will not be considered!!")
+                    return 'experience'
+
                 experience_model.job_description = job_description
                 experience_model.save()
         except Experience.DoesNotExist:
@@ -289,15 +360,6 @@ def get_education(request, resume):
             graduation_month = None
             graduation_year = None
 
-        if graduation_month and graduation_year:
-            pass
-        elif graduation_month or graduation_year:
-            messages.error(request, "please input both Month and Year")
-            messages.error(request, "Single input will not be considered!!")
-            return 'experience'
-        else:
-            graduation_month, graduation_year = None, None
-
         resume_instance = get_resume_instance(request, resume)
         try:
             education_model = Education.objects.get(id=education_instance)
@@ -309,8 +371,16 @@ def get_education(request, resume):
                 education_model.state = state
                 education_model.degree = degree
                 education_model.study_field = study_field
-                education_model.graduation_month = graduation_month
-                education_model.graduation_year = graduation_year
+
+                if graduation_month and graduation_year:
+                    if graduation_month != 'None' and graduation_year != 'None':
+                        education_model.graduation_month = graduation_month
+                        education_model.graduation_year = graduation_year
+                elif graduation_month or graduation_year:
+                    messages.error(request, "please input both Month and Year")
+                    messages.error(request, "Single input will not be considered!!")
+                    return 'experience'
+
                 education_model.percentage = percentage
                 education_model.suffix = suffix
                 education_model.save()
@@ -344,15 +414,6 @@ def get_projects(request, resume):
             month_end = None
             year_end = None
 
-        if month_start and year_start and month_end and year_end:
-            pass
-        elif month_start or year_start or month_end or year_end:
-            messages.error(request, "please input All Start Date-Year and Ending Date-Year")
-            messages.error(request, "Single input will not be considered!!")
-            return 'experience'
-        else:
-            month_start, year_start, month_end, year_end = None, None, None, None
-
         resume_instance = get_resume_instance(request, resume)
 
         try:
@@ -361,10 +422,18 @@ def get_projects(request, resume):
                 project_model.delete()
             else:
                 project_model.title = title
-                project_model.month_start = month_start
-                project_model.year_start = year_start
-                project_model.month_end = month_end
-                project_model.year_end = year_end
+
+                if month_start and year_start and month_end and year_end:
+                    if month_end != 'None' and month_start != 'None' and year_start != 'None' and year_end != 'None':
+                        project_model.month_start = month_start
+                        project_model.year_start = year_start
+                        project_model.month_end = month_end
+                        project_model.year_end = year_end
+                elif month_start or year_start or month_end or year_end:
+                    messages.error(request, "please input All Start Date-Year and Ending Date-Year")
+                    messages.error(request, "Single input will not be considered!!")
+                    return 'experience'
+
                 project_model.description = description
                 project_model.save()
         except Project.DoesNotExist:
@@ -381,7 +450,7 @@ def get_projects(request, resume):
 
 def get_technical_skills(request, resume):
     if request.method == "POST":
-        skill_name = request.POST.get('name').strip().capitalize()
+        skill_name = request.POST.get('name')
         level = request.POST.get('level')
         project_instance = request.POST.get('current')
         add_new = request.POST.get('add_new')
@@ -421,8 +490,8 @@ def get_technical_skills(request, resume):
 
 def get_soft_skills(request, resume):
     if request.method == "POST":
-        skill_name = request.POST.get('name').strip().capitalize()
-        description = request.POST.get('description').strip().capitalize()
+        skill_name = request.POST.get('name')
+        description = request.POST.get('description')
         project_instance = request.POST.get('current')
         add_new = request.POST.get('add_new')
         delete = request.POST.get('delete')
@@ -482,8 +551,11 @@ def get_custom(request, resume):
                 custom_field_model.field_title = field
                 custom_field_model.header = header
                 custom_field_model.description = description
-                custom_field_model.month = month
-                custom_field_model.year = year
+
+                if month and year:
+                    if month != 'None' and year != 'None':
+                        custom_field_model.month = month
+                        custom_field_model.year = year
                 custom_field_model.save()
         except CustomField.DoesNotExist:
             custom_field_model = CustomField(resume=resume_instance, field_title=field, header=header,
@@ -496,15 +568,102 @@ def get_custom(request, resume):
             return 'view_template'
 
 
-def template(request, resume=None):
-    content = get_models_data(request, resume)
+def download_template(request, resume, template_name=None):
+    try:
+        template_path = f'resume/html/{template_name}.html'
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'filename={request.user.get_username()}.pdf'  # for viewing the Excel online
+        # response['Content-Disposition'] = 'attachment; filename=filename.xls'   ##### for downloading the Excel
+        # response['Content-Disposition'] = f'attachment; filename="{request.user.get_username()}.pdf"'
+        template_ = get_template(template_path)
+        content = {'download': 1}
+        content.update(get_models_data(request, resume))
+
+        html = template_.render(content)
+        pisa_status = pisa.CreatePDF(html, dest=response)
+        if pisa_status.err:
+            return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return response
+    except:
+        messages.error(request, 'Something Went Wrong Please Try Again!!')
+        messages.error(request, "We Are Sorry For The Inefficiency")
+        return redirect('create_resume', resume, 'view_template')
+
+
+def preview(request, resume_id=None, template_name=None):
+    content = get_models_data(request, resume_id)
     content['qr_code'] = get_rq_code_svg(request.user.get_username())
-    return render(request, 'resume/html/first_temp.html', content)
-
-
-def document_check(request, requester=None, user=None):
-    if requester and user:
-        pass
+    if not template_name:
+        messages.error(request, 'Invalid Url, or Template Name not provided')
+        messages.error(request, 'Showing your Resume in our Default Template!!')
+        return render(request, 'resume/html/first_temp.html', content)
     else:
-        messages.error(request, 'Something went wrong Please try again!!')
+        content['template_name'] = template_name
+        content['resume'] = resume_id
+        content['STATIC_ROOT'] = settings.STATIC_ROOT
+        return render(request, f'resume/html/{template_name}.html', content)
+
+
+def view_resume(request):
+    UserModel = get_user_model()
+    try:
+        current_user = UserModel.objects.get(email=request.user)
+    except UserModel.DoesNotExist:
+        messages.error(request, f'User with {request.user} does not exist or may have been deleted')
+        messages.error(request, 'We are sorry for the inconvenience')
+        return render(request, 'html/error_page.html')
+
+    content = {}
+    resumes = Resume.objects.filter(user_id=current_user)
+    for index, i in enumerate(resumes):
+        try:
+            personal_info = PersonalInformation.objects.get(resume=i)
+            experience_info = Experience.objects.filter(resume=i)
+            education_info = Education.objects.filter(resume=i)
+
+            content[index] = {
+                'name': personal_info.first_name + ' ' + personal_info.last_name,
+                'email': personal_info.email,
+                'phone_number': personal_info.phone_number,
+                'education': [i.school_name for i in education_info],
+                'experience': [i.job_title for i in experience_info],
+                'resume': i
+            }
+        except PersonalInformation.DoesNotExist:
+            i.delete()
+
+    return render(request, 'html/user_resume.html', {'data': content, 'view': 1})
+
+
+@login_required(redirect_field_name='next', login_url='login')
+def upload(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        image = request.FILES.get('image')
+        obj_id = request.POST.get('delete')
+        if obj_id:
+            Document.objects.filter(id=obj_id).delete()
+            return redirect('upload')
+        if image and name:
+            Document(user_id=request.user, doc_img=image, name=name).save()
+        elif image or name:
+            messages.error(request, 'Please input Fields Correctly')
+            return redirect('upload')
+
+    document_model = Document.objects.filter(user_id=request.user)
+    return render(request, 'html/upload.html', {'documents': document_model})
+
+
+def document_check(request, user=None):
+    if user:
+        document_model = Document.objects.filter(user_id=request.user)
+
+        content = {}
+        if document_model:
+            for index, obj in enumerate(document_model):
+                with open(obj.doc_img, 'rb') as image:
+                    content[index] = [obj.name, base64.b64encode(image.read())]
+        return render(request, 'view_document.html')
+    else:
+        messages.error(request, 'Invalid Url or Invalid Redirecting')
         return redirect('home')

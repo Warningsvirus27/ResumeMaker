@@ -1,0 +1,12 @@
+.container {
+    background-color: white;
+    position: relative;
+    //top: 13vh;
+    left: 0vw;
+    overflow: hidden;
+    float: left;
+    width: 70%;
+    min-height: 55vh;
+    box-shadow: 0 0 10px rgba(189, 132, 132, 0.6);
+    border-radius: 5px;
+}

@@ -266,7 +266,7 @@
                                         <div class="input-group mb-3">
                                           <select class="custom-select" id="inputGroupSelect01"
                                           name="degree"
-                                         onchange="myFunction(this, 'custom_degree', 'insert_degree{{count}}')">
+                                         onchange="myFunction(this, 'custom_degree', 'insert_degreecount{{count}}')">
                                             <option
                                                   {% if not education %} disabled="disabled" {% endif %}
                                                   selected="selected">
@@ -308,7 +308,7 @@
                             </div>
                                 </div>
                                     <div class="row">
-                                <div class="col" id="insert_degree{{count}}">
+                                <div class="col" id="insert_degreecount{{count}}">
                                 </div>
                                     <div class="col">
                                     </div>
@@ -390,7 +390,7 @@
                                         <div class="input-group mb-3">
                                           <select class="custom-select" id="inputGroupSelect04"
                                           name="suffix"
-                                        onchange="myFunction(this, 'custom_percentage', 'insert_percentage{{count}}', '')" >
+                                        onchange="myFunction(this, 'custom_percentage', 'insert_percentagecount{{count}}', '')" >
                                             <option
                                                 selected="selected">
                                                     {% if education %}
@@ -408,7 +408,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col"></div>
-                                    <div class="col" id="insert_percentage{{count}}"></div>
+                                    <div class="col" id="insert_percentagecount{{count}}"></div>
                                 </div>
                             </div>
                         </div>

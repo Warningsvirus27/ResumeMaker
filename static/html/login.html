@@ -7,18 +7,13 @@ Login
 {% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/login.css' %}" xmlns="http://www.w3.org/1999/html"
-      xmlns="http://www.w3.org/1999/html"/>
-{% endblock %}
-
-{% block page_name %}
-<!--<h1 class="page_name">Login.</h1>-->
+<link rel="stylesheet" href="{% static 'css/login.css' %}"/>
 {% endblock %}
 
 {% block form %}
 <div id="main">
     <div id="login">
-         <img class="one" src="{% static 'img/sapiens.svg' %}">
+        <img class="one" src="{% static 'img/sapiens.svg' %}">
     </div>
 
 
@@ -27,9 +22,15 @@ Login
         <div class="container">
             <br>
             <div class="row">
+                <h1>
+                    SIGN IN
+                </h1>
+                <hr style="border:3px solid white;">
+            </div>
+            <div class="row">
                 <div class="col">
                     <h4 class="name">EMAIL ID</h4>
-                    <input type="text" name="email" class="form-control" placeholder="Email Id"
+                    <input type="email" name="email" class="form-control" placeholder="Email Id"
                            aria-label="division" autocomplete="off" required>
                 </div>
             </div>

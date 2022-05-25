@@ -6,6 +6,8 @@ import base64
 from qrcode import make
 from qrcode.image import svg
 import os
+from django.conf import settings
+from django.contrib.staticfiles import finders
 
 
 def year_list():
@@ -44,17 +46,17 @@ def get_models_data(request, resume):
     soft_skill_model = SoftSkills.objects.filter(resume=resume_instance)
     custom_field_model = CustomField.objects.filter(resume=resume_instance)
     if experience_model:
-        content['experience'] = experience_model
+        content['experiences'] = experience_model
     if education_model:
-        content['education'] = education_model
+        content['educations'] = education_model
     if project_model:
-        content['project'] = project_model
+        content['projects'] = project_model
     if technical_skills_model:
         content['tech_skills'] = technical_skills_model
     if soft_skill_model:
         content['soft_skills'] = soft_skill_model
     if custom_field_model:
-        content['custom'] = custom_field_model
+        content['custom_fields'] = custom_field_model
 
     return content
 
