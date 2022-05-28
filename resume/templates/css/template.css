@@ -1,25 +1,5 @@
-.container {
-    position: relative;
-    //top: 10vh;
-    left: -5vw;
-    overflow: hidden;
-    float: left;
-    //width: 60vh;
-    width: 70%;
-    min-height: 55vh;
-    //box-shadow: 0 0 15px 5px rgb(31 73 125 / 80%);
-    //border-radius: 2vh;
-    //background-color: #ff5500;
-    //background: -webkit-gradient(linear,right top,left, from(#b054a1), to(#6e9bdb)) fixed;
-}
-div.myDiv {
-position:relative;
-top:0;
-left:20vw;
-text-align: left;
-float: center;
-width: 80%;
-margin:0;
+.container{
+min-height:107vh;
 }
 .image {
     vertical-align: middle;
@@ -30,4 +10,24 @@ margin:0;
 }
 .image:hover{
 transform: scale(1.02);
+}
+#moon {
+    margin: 0 0;
+    position: relative;
+    bottom: -63vh;
+    left: -50vw;
+    z-index: 1;
+}
+.moon{
+height:15%;
+width:25%;
+}
+#w1{
+position: absolute;
+transform: scaleX(-1) rotate(90deg);
+    height: 200px;
+    top: 58%;
+    right: -26vw;
+margin: 0;
+z-index: 1
 }

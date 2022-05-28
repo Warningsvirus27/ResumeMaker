@@ -22,15 +22,18 @@ h4 {
   color: black;
 }
 #nav_page{
-background: #b6cfd6;
+background: #525151;
+color:white;
 }
 .container {
+background-color: rgba(255, 255, 255, 0.6);
+
     position: relative;
     //top: 10vh;
     overflow: hidden;
     //float: left;
     //width: 60vh;
-    width: 95%;
+    width: 80%;
     min-height: 55vh;
     box-shadow: 0 0 15px 5px rgb(31 73 125 / 80%);
     margin: 0 auto;
@@ -38,8 +41,14 @@ background: #b6cfd6;
     //background-color: #ff5500;
     //background: -webkit-gradient(linear,right top,left, from(#b054a1), to(#6e9bdb)) fixed;
 }
+.color1 {
+    background-color: #5cad7e;
+    margin: 0 0;
+    border-top-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+}
 .container2{
-width:80%;
+width:90%;
 margin: 0 auto;
 margin-top: 50px;
 margin-bottom: 60px;

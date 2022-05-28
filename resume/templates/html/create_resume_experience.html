@@ -16,7 +16,7 @@
 {% block form %}
         <div class="container">
             <br>
-            <div class="row">
+            <div class="row color1">
                 <div class="col">
                 <h1>
                     ENTER EXPERIENCE DETAILS
@@ -29,10 +29,10 @@
                 <ul class="nav nav-tabs" role="tablist">
                     {% for tabs in experiences %}
                   <li class="nav-tabs-li"><a href="#{{ tabs.id }}" role="tab" data-toggle="tab">
-                      <button class="btn btn-primary">{{tabs.employer}}</button></a></li>
+                      <button class="btn btn-danger">{{tabs.employer}}</button></a></li>
                     {% endfor %}
                     <li class="nav-tabs-li active"><a href="#job-{{count}}" role="tab" data-toggle="tab">
-                      <button class="btn btn-primary">job-{{count}}</button></a></li>
+                      <button class="btn btn-danger">job-{{count}}</button></a></li>
                 </ul>
             <div class="tab-content">
                 <br>

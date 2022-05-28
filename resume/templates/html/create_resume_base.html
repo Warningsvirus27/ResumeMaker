@@ -23,13 +23,20 @@
 </head>
 <body style="background-image: url({% static 'images/paper.jpg' %});">
 
-<nav id="nav_page" class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand">Hello <b>{{user.get_full_name}}</b></a>
+<nav id="nav_page" class="navbar navbar-expand-lg navbar-light" style="z-index:100;">
+    <a class="navbar-brand"  style="color: #dbe360;text-shadow: 0 0 3px rgb(0,0,0), 0 0 3px rgb(0,0,0);">
+    <img src="{% static 'images/logo1.jpg' %}" width="40" height="40" alt="logo">
+    {% if user.is_authenticated %}
+        <b>Hello {{user.get_full_name}}</b>
+    {% else %}
+        <b>Hello Alien</b>
+     {% endif %}
+  </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav ms-auto">
+    <ul class="navbar-nav ms-auto" style="color: white;">
       <li class="nav-item">
         <a class="nav-link"
            {% if personal_info_tick %} href="{% url 'create_resume' resume_id=resume field='personal_info' %}" {% endif %}>
@@ -69,10 +76,9 @@
   </div>
 </nav>
 
-<!--
-<img src="{% static 'images/moon.png' %}" id="moon" alt="">
 <img class="wave" src="{% static 'images/wave.svg' %}" id="w1" alt="">
--->
+
+
 
     {% if messages %}
 <div class="text-center" style="width:30%;float:right;position:relative;top:70px;margin-right:50px;">
@@ -103,7 +109,9 @@
     {% block form %}
     {% endblock %}
 </div>
-
+<div id="moon">
+    <img src="{% static 'images/dot.png' %}" class="moon" alt="">
+</div>
 {% block script %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -116,5 +124,6 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript" src="{% static 'js/create_resume_base.js' %}"></script>
 {% endblock %}
+
 </body>
 </html>

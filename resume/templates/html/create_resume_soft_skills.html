@@ -15,7 +15,7 @@
 {% block form %}
         <div class="container">
             <br>
-            <div class="row">
+            <div class="row color1">
                 <div class="col">
                 <h1>
                     ENTER SOFT SKILLS.
@@ -26,7 +26,7 @@
             <hr style="border: 2px dashed black;">
 
             {% if count == 1 %}
-            <form method="post">
+            <form method="post"  style="margin-bottom:8%;">
                 {% csrf_token %}
                 <input type="hidden" value="1" name="new">
                 {% for i in counter %}
@@ -49,6 +49,11 @@
                     <div class="col">
                         <button style="float:right;" type="submit" class="btn btn-primary">Submit</button>
                     </div>
+                    <div class="col">
+                        <button id="redirect" class="btn btn-primary"><a style="color:white;text-decoration:none"
+                        href="{% url 'create_resume' resume_id=resume field='custom' %}">
+                            Skip and Next</a></button>
+                </div>
                 </div>
             </form>
 
@@ -80,7 +85,7 @@
                 <br>
             </form>
             {% endfor %}
-            <form method="post">
+            <form method="post" style="margin-bottom:8%;">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col">

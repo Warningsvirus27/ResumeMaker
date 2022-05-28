@@ -97,6 +97,6 @@ def get_models_tick(request, resume):
 
 def get_rq_code_svg(link):
     link = str(base64.b64encode(link.encode('ascii')))[2:-1]
-    img = make(link, image_factory=svg.SvgImage)
+    img = make(link + '/doc', image_factory=svg.SvgImage)
     img.save(f'resume/templates/images/qrcode/{link}.svg')
-    return link + '.svg'
+    return link

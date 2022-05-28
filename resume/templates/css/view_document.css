@@ -1,0 +1,13 @@
+#nav_page{
+background: #525151;
+color:white;
+}
+html {
+height: auto;
+ }
+body{
+background-repeat: no-repeat;
+background-size: 100% 100%;
+min-height: 100%;
+margin-bottom: 100px;
+}

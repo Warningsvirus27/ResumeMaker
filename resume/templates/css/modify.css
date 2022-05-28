@@ -22,9 +22,11 @@ h4 {
   color: black;
 }
 #nav_page{
-background: #b6cfd6;
+background: #525151;
+color:white;
 }
 .container {
+background-color: rgba(255, 255, 255, 0.6);
     position: relative;
     //top: 10vh;
     overflow: hidden;
@@ -39,6 +41,7 @@ background: #b6cfd6;
     //background: -webkit-gradient(linear,right top,left, from(#b054a1), to(#6e9bdb)) fixed;
 }
 .container2{
+
 width:80%;
 margin: 0 auto;
 margin-bottom: 60px;

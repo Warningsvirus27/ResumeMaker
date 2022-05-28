@@ -18,15 +18,22 @@
 <body style="background-image: url({% static 'images/paper.jpg' %});">
 
 <nav id="nav_page" class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand">Hello <b>{{user.get_full_name}}</b></a>
+    <a class="navbar-brand"  style="color: #dbe360;text-shadow: 0 0 3px rgb(0,0,0), 0 0 3px rgb(0,0,0);">
+    <img src="{% static 'images/logo1.jpg' %}" width="40" height="40" alt="logo">
+    {% if user.is_authenticated %}
+        <b style="cursor:pointer;">Hello {{user.get_full_name}}</b>
+    {% else %}
+        <b>Hello Alien</b>
+     {% endif %}
+  </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item" style="margin-right:50px;">
-          <a href="{% url 'home' %}">
-              <button class="btn btn-primary">HOMEPAGE</button>
+          <a href="{% url 'home' %}" style="decoration:none;color:white">
+              HOMEPAGE
           </a>
       </li>
     </ul>
@@ -84,39 +91,29 @@
                     <div class="wrapper">
                         {% if i.name and i.phone_number and i.email %}
                         <div class="row">
+                            {% if i.image %}
                             <div class="col">
-                                <span style="float:left;">{{i.name}}</span>
+                                <img src="/media/{{i.image}}" width="90px" height="90px"
+                                     style="margin:20px 0px;border-radius:50%;border:2px solid purple;">
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <p style="float:right">{{i.phone_number}}</p><br>
-                                <p>{{i.email}}</p>
+                            {% endif %}
+                        <div class="row1" style="text-align:center;" >
+                            <div class="col" style="text-align:center;">
+                                    <div class="row">
+                                    <span>{{i.name}}</span>
+                                        </div>
+                                    <div class="row">
+                                    <p>{{i.phone_number}}</p><br>
+                                        </div>
+                                    <div class="row">
+                                    <p>{{i.email}}</p>
+                                </div>
                             </div>
                         </div>
                         {% else %}
                         -No Data-
                          {% endif %}
-                        <hr>
-                        {% if i.experience %}
-                        <div class="row">
-                                {% for exp in i.experience %}
-                            <p style="float:left;">{{exp}}</p>
-                                {% endfor %}
-                        </div>
-                        {% else %}
-                        -No Data-
-                        {% endif %}
-                        <hr>
-                        {% if i.education %}
-                        <div class="row">
-                            {% for edu in i.education %}
-                            <p style="left;">{{edu}}</p>
-                            {% endfor %}
-                        </div>
-                        {% else %}
-                        -No Data-
-                        {% endif %}
                     </div>
                          </a>
                 <div class="row" style="margin-bottom:5%;">

@@ -1,37 +1,35 @@
-.container {
+#moon {
+    margin: 0 0;
     position: relative;
-    //top: 10vh;
-    left: -5vw;
-    overflow: hidden;
-    float: left;
-    //width: 60vh;
-    width: 70%;
-    min-height: 55vh;
-    //box-shadow: 0 0 15px 5px rgb(31 73 125 / 80%);
-    //border-radius: 2vh;
-    //background-color: #ff5500;
-    //background: -webkit-gradient(linear,right top,left, from(#b054a1), to(#6e9bdb)) fixed;
+    bottom: -25vh;
+    left: -49vw;
+    z-index: 1;
 }
-.tab-pane{
-margin-left: 10%;
-float: center;
+.moon{
+height:15%;
+width:25%;
 }
-#end-btn{
-margin-top:15px;
+#w1{
+position: absolute;
+transform: scaleX(-1) rotate(90deg);
+height: 132px;
+top: 47%;
+right: -17vw;
+margin: 0;
+z-index: 1
 }
-.tab-pane fade show active{
-    color: #fff;
-    margin: 10px 10px;
-    background-color: #007bff;
-}
-.tab-content>.active {
-    display: block;
-    margin: 10px 10px;
+.container{
+min-height:67px;
 }
 
-element.style {
+@media (min-height:615px)
+{
+#w1{
+    height: 215px;
+    top: 48%;
+    right: -27vw
 }
-.nav-pills .nav-link {
-    border-radius: 0.25rem;
-    margin: 5px 10px;
+#moon{
+bottom: -50vh;
+}
 }

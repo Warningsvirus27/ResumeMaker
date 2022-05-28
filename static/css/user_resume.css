@@ -1,0 +1,72 @@
+html {
+    height: auto;
+     }
+    body{
+    background-repeat: no-repeat;
+    background-size: cover;
+    height:fit-content;
+    background-position:center;
+    }
+    div.myDiv {
+    position:relative;
+    top:5%;
+    text-align: left;
+    width: 70%;
+    margin: 0 auto;
+    }
+    h4 {
+      font-size: 1.1em;
+      color: black;
+    }
+    .message{
+      color: black;
+    }
+    #nav_page{
+    background: #525151;
+color:white;
+    }
+    .container {
+        position: relative;
+        /*top: 10vh;*/
+        overflow: hidden;
+        /*float: left;*/
+        /*width: 60vh;*/
+        width: 100%;
+        min-height: 55vh;
+        box-shadow: 0 0 15px 5px rgb(31 73 125 / 80%);
+        margin: 0 auto;
+        margin-top:5%;
+        /*border-radius: 2vh;
+        //background-color: #ff5500;
+        //background: -webkit-gradient(linear,right top,left, from(#b054a1), to(#6e9bdb)) fixed;*/
+
+    }
+    .wrapper{
+    border:1px solid black;
+    padding: 0 25px;
+    margin: auto auto;
+    margin-bottom:7%;
+    background-color:white;
+    width: auto;
+    }
+    .wrapper:hover{
+    transform: scale(1.02);
+    }
+    p{
+    margin: 0 0;
+    }
+    .text-center1{
+        display: flex;
+        flex-wrap: wrap;
+
+    }
+    .col1{
+        width:fit-content;
+        float: center;
+        margin-left: 5%;
+    }
+    @media screen and (min-width:710px) and (max-width:1100px){
+        .col1{
+            margin-left:25%;
+        }
+    }

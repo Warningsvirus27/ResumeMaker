@@ -406,8 +406,8 @@ top: -40px;
             <div class="qr">
 
                 <p style="float:right;">Click the link or scan the Qr Code to view User's Documents</p>
-                <img style="float: right;width:20%;margin:0% 0% 0% 0%;" src="{% static 'images/qrcode/' %}{{qr_code}}">
-                <p><a style="float: right;white-space: nowrap;" href="{{qr_code}}/doc">{{qr_code}}/doc</a></p>
+                <img style="float: right;width:20%;margin:0% 0% 0% 0%;" src="{% static 'images/qrcode/' %}{{qr_code}}.svg">
+                <p><a style="float: right;white-space: nowrap;" href="/{{qr_code}}/doc">{{qr_code}}</a></p>
             </div>
             <br>
                 {% endif %}

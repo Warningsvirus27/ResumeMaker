@@ -3,9 +3,11 @@ html {
 height: auto;
  }
 body{
+overflow-x:hidden;
 background-repeat: no-repeat;
-background-size: 100% 100%;
-min-height: 100%;
+background-size: cover;
+//min-height: 100%;
+height:fit-content;
 }
 div.myDiv {
 position:relative;
@@ -14,7 +16,20 @@ left:20vw;
 text-align: left;
 width: 70%;
 margin:0;
-margin-bottom: 100px;
+}
+.container{
+    background-color: rgba(255, 255, 255, 0.6);
+    position: relative;
+    //top: 13vh;
+    left: 0vw;
+    overflow: hidden;
+    float: left;
+    width: 70%;
+    min-height: 140vh;
+    box-shadow: 0 0 10px rgba(189, 132, 132, 0.6);
+    border-radius: 5px;
+margin-bottom: 10%;
+z-index:2;
 }
 h4 {
   font-size: 1.1em;
@@ -28,11 +43,35 @@ textarea {
     resize: none;
 }
 #nav_page{
-background: #b6cfd6;
+background: #525151;
+color:white;
 }
-#moon{
-position:relative;
+#moon {
+    margin: 0 0;
+    position: relative;
+    bottom: -95vh;
+    left: -49vw;
+    z-index: 1;
+}
+.moon{
+height:15%;
+width:35%;
 }
 #w1{
-position:relative;
+position: absolute;
+transform: scaleX(-1) rotate(90deg);
+height: 265px;
+top: 85%;
+right: -34vw;
+margin: 0;
+z-index: 1
+}
+.navbar-light .navbar-nav .nav-link {
+    color: rgb(255,255,255);
+}
+.color1 {
+    background-color: #5cad7e;
+    margin: 0 0;
+    border-top-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
 }

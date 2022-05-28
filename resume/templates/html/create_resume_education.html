@@ -15,7 +15,7 @@
 {% block form %}
         <div class="container">
             <br>
-            <div class="row">
+            <div class="row color1"  style="padding-left:20px;">
                 <h1>
                     ENTER EDUCATION DETAILS
                 </h1>
@@ -26,10 +26,10 @@
                 <ul class="nav nav-tabs" role="tablist">
                     {% for tabs in educations %}
                   <li class="nav-tabs-li"><a href="#{{ tabs.id }}" role="tab" data-toggle="tab">
-                      <button class="btn btn-primary">{{tabs.school_name }}</button></a></li>
+                      <button class="btn btn-danger">{{tabs.school_name }}</button></a></li>
                     {% endfor %}
                     <li class="nav-tabs-li active"><a href="#Edu-{{count}}" role="tab" data-toggle="tab">
-                      <button class="btn btn-primary">EDU-{{count}}</button></a></li>
+                      <button class="btn btn-danger">EDU-{{count}}</button></a></li>
                 </ul>
             <div class="tab-content">
                 <br>

@@ -3,12 +3,13 @@ html {
      }
     body{
     background-repeat: no-repeat;
-    background-size: 100% 100%;
-    min-height: 100%;
+    background-size: cover;
+    height:fit-content;
+    background-position:center;
     }
     div.myDiv {
     position:relative;
-    top:0;
+    top:5%;
     text-align: left;
     width: 70%;
     margin: 0 auto;
@@ -21,7 +22,8 @@ html {
       color: black;
     }
     #nav_page{
-    background: #b6cfd6;
+    background: #525151;
+    color:white;
     }
     .container {
         position: relative;
@@ -33,12 +35,19 @@ html {
         min-height: 55vh;
         box-shadow: 0 0 15px 5px rgb(31 73 125 / 80%);
         margin: 0 auto;
+        margin-top:5%;
         /*border-radius: 2vh;
         //background-color: #ff5500;
         //background: -webkit-gradient(linear,right top,left, from(#b054a1), to(#6e9bdb)) fixed;*/
 
     }
+    a{
+    color:black;
+    decoration:none;
+    }
     .wrapper{
+    position: relative;
+    margin-bottom: 8px;
     border:1px solid black;
     padding: 0 25px;
     margin: auto auto;
@@ -46,8 +55,19 @@ html {
     background-color:white;
     width: auto;
     }
+    .wrapper::before{
+    content:"";
+    background:purple;
+    height:80px;
+    width:100%;
+    position:absolute;
+    margin: 0 auto;
+    top:0;
+    left:0;
+    }
     .wrapper:hover{
     transform: scale(1.02);
+    box-shadow: 0 0 15px 5px rgb(31 73 125 / 80%);
     }
     p{
     margin: 0 0;
@@ -66,4 +86,9 @@ html {
         .col1{
             margin-left:25%;
         }
+    }
+    .row1{
+    display:flex;
+    justify-content:end;
+    align-item:center;
     }

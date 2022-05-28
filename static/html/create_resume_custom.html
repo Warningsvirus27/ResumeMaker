@@ -7,6 +7,7 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/create_resume_skills.css' %}">
+<link rel="stylesheet" href="{% static 'css/custom.css' %}">
 {% endblock %}
 
 {% block head_content %}
@@ -15,7 +16,7 @@
 {% block form %}
         <div class="container">
             <br>
-            <div class="row">
+            <div class="row color1">
                 <div class="col">
                 <h1>
                     ADD CUSTOM FIELD.
@@ -28,7 +29,7 @@
 
 
             {% for field in custom_fields %}
-            <form method="post">
+            <form method="post" style="margin-bottom:8%;">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col">
@@ -112,7 +113,7 @@
              </form>
             {% endfor %}
 
-            <form method="post">
+            <form method="post" style="margin-bottom:8%;">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col">

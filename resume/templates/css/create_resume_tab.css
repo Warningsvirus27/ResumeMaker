@@ -1,4 +1,4 @@
-.container {
+/*.container {
     position: relative;
     //top: 10vh;
     left: -5vw;
@@ -11,12 +11,11 @@
     //border-radius: 2vh;
     //background-color: #ff5500;
     //background: -webkit-gradient(linear,right top,left, from(#b054a1), to(#6e9bdb)) fixed;
-}
+}*/
 
 .nav-tabs{
 }
 .tab-pane{
-    background-color: white;
     width : 90%;
     margin: 0 auto;
 }

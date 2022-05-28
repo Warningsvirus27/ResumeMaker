@@ -1,0 +1,20 @@
+#moon {
+    margin: 0 0;
+    position: relative;
+    bottom: -51vh;
+    left: -49vw;
+    z-index: 1;
+}
+.moon{
+height:15%;
+width:35%;
+}
+#w1 {
+    position: absolute;
+    transform: scaleX(-1) rotate(90deg);
+    top: 65%;
+    right: -30vw;
+    margin: 0;
+    height: 235px;
+    z-index: 1;
+}

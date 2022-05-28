@@ -1,0 +1,50 @@
+html {
+height: auto;
+ }
+body{
+background-repeat: no-repeat;
+background-size: 100% 100%;
+min-height: 100%;
+margin-bottom: 100px;
+}
+div.myDiv {
+position:relative;
+top:0;
+text-align: left;
+width: 80%;
+margin: 0 auto;
+}
+h4 {
+  font-size: 1.1em;
+  color: black;
+}
+.message{
+  color: black;
+}
+#nav_page{
+background: #525151;
+color:white;
+}
+.container {
+background-color: rgba(255, 255, 255, 0.6);
+    position: relative;
+    //top: 10vh;
+    overflow: hidden;
+    //float: left;
+    //width: 60vh;
+    width: 95%;
+    min-height: 55vh;
+    box-shadow: 0 0 15px 5px rgb(31 73 125 / 80%);
+    margin: 0 auto;
+    //border-radius: 2vh;
+    //background-color: #ff5500;
+    //background: -webkit-gradient(linear,right top,left, from(#b054a1), to(#6e9bdb)) fixed;
+}
+.container2{
+width:80%;
+margin: 0 auto;
+margin-bottom: 60px;
+}
+p{
+margin: 0 0;
+}

@@ -1,10 +1,8 @@
 function myFunction(current_element, name, target, placeholder="Custom Degree") {
   //var x = document.getElementById("mySelect").value;
   var x = current_element.value;
-    console.log('yoho');
   if (x == 'Custom')
   {
-    console.log('yes');
       var new_input = document.createElement("input")
       new_input.setAttribute('type', 'text');
       new_input.setAttribute('name', name);
@@ -18,7 +16,6 @@ function myFunction(current_element, name, target, placeholder="Custom Degree") 
    }
    else
    {
-    console.log('no');
    input_tag = document.getElementById(name)
    if (input_tag)
    {

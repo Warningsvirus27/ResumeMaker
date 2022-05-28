@@ -244,13 +244,10 @@ top: -40px;
                 {% endif %}
             </ul>
 
-            {% if download %}
-            <img id="left_d" src="{{ STATIC_ROOT }}/wave.svg" alt="">
-            {% else %}
+
             <img id="left_d" src="{% static 'resume/html/wave.svg' %}" alt="">
-            {% endif %}
+
         </div>
-        {{ STATIC_ROOT }}
         <div id="right">
             {% if download %}
             <img src="{{ STATIC_ROOT }}/r_b1.svg" alt="">
@@ -282,11 +279,11 @@ top: -40px;
                 <hr>
                 {% endif %}
 
-            {% if experience %}
+            {% if experiences %}
             <div class="experience">
                 <h3>EXPERIENCE:</h3>
 
-                {% for exp in experience %}
+                {% for exp in experiences %}
                 <h4 style="margin-left: 6%;">{{ exp.employer }}</h4>
 
                 <div>
@@ -310,10 +307,10 @@ top: -40px;
             </div>
             {% endif %}
 
-            {% if education %}
+            {% if educations %}
             <div id="education">
                 <h3>EDUCATION:</h3>
-                {% for edu in education %}
+                {% for edu in educations %}
                 <ul>
                     <div>
                     <h4>{{edu.degree}}-{{edu.study_field}}</h4>
@@ -336,10 +333,10 @@ top: -40px;
             {% endif %}
 
 
-            {% if project %}
+            {% if projects %}
                 <div class="experience">
                 <h3>PROJECT:</h3>
-                {% for pro in project %}
+                {% for pro in projects %}
                 <div>
                     <h4 style="margin-left: 6%;">{{ pro.title }}</h4>
                     {% if pro.month_start and pro.year_start and pro.month_end and pro.year_end %}
@@ -377,10 +374,10 @@ top: -40px;
             </div>
                 {% endif %}
 
-                {% if custom %}
+                {% if custom_fields %}
                 <br>
                 <hr style="border: 1px dashed black;margin-left:20%;margin-right:20%;">
-                {% for field in custom %}
+                {% for field in custom_fields %}
             <div id="skill">
                 <h4>{{field.field_title}}</h4>
                 <div class="">
@@ -409,8 +406,8 @@ top: -40px;
             <div class="qr">
 
                 <p style="float:right;">Click the link or scan the Qr Code to view User's Documents</p>
-                <img style="float: right;width:20%;margin:0% 0% 0% 0%;" src="{% static 'images/qrcode/' %}{{qr_code}}">
-                <p><a style="float: right;white-space: nowrap;" href="{{qr_code}}/doc">{{qr_code}}/doc</a></p>
+                <img style="float: right;width:20%;margin:0% 0% 0% 0%;" src="{% static 'images/qrcode/' %}{{qr_code}}.svg">
+                <p><a style="float: right;white-space: nowrap;" href="/{{qr_code}}/doc">{{qr_code}}</a></p>
             </div>
             <br>
                 {% endif %}

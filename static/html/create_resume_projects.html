@@ -7,6 +7,7 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/create_resume_tab.css' %}">
+<link rel="stylesheet" href="{% static 'css/proj.css' %}">
 {% endblock %}
 
 {% block head_content %}
@@ -15,7 +16,7 @@
 {% block form %}
         <div class="container">
             <br>
-            <div class="row">
+            <div class="row color1" style="padding-left:20px;">
                 <h1>
                     ENTER PROJECT DETAILS
                 </h1>
@@ -26,10 +27,10 @@
                 <ul class="nav nav-tabs" role="tablist">
                     {% for tabs in projects %}
                   <li class="nav-tabs-li"><a href="#{{ tabs.id }}" role="tab" data-toggle="tab">
-                      <button class="btn btn-primary">{{tabs.title}}</button></a></li>
+                      <button class="btn btn-danger">{{tabs.title}}</button></a></li>
                     {% endfor %}
                     <li class="nav-tabs-li active"><a href="#pro-{{count}}" role="tab" data-toggle="tab">
-                      <button class="btn btn-primary">Project-{{count}}</button></a></li>
+                      <button class="btn btn-danger">Project-{{count}}</button></a></li>
                 </ul>
             <div class="tab-content">
                 <br>

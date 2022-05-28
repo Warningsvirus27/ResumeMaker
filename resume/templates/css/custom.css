@@ -1,0 +1,11 @@
+@media (min-height:600px)
+{
+#w1{
+    height: 400px;
+    top: 48%;
+    right: -55vw;
+}
+#moon{
+bottom: -99vh;
+}
+}

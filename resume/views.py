@@ -1,3 +1,4 @@
+import base64
 from io import BytesIO
 from PIL import Image
 from django.contrib.auth.decorators import login_required
@@ -29,15 +30,12 @@ def template_edit(request):
     for index, i in enumerate(resumes):
         try:
             personal_info = PersonalInformation.objects.get(resume=i)
-            experience_info = Experience.objects.filter(resume=i)
-            education_info = Education.objects.filter(resume=i)
 
             content[index] = {
+                'image': personal_info.image,
                 'name': personal_info.first_name + ' ' + personal_info.last_name,
                 'email': personal_info.email,
                 'phone_number': personal_info.phone_number,
-                'education': [i.school_name for i in education_info],
-                'experience': [i.job_title for i in experience_info],
                 'resume': i
             }
         except PersonalInformation.DoesNotExist:
@@ -48,24 +46,33 @@ def template_edit(request):
 
 @login_required(redirect_field_name='next', login_url='login')
 def edit(request, resume_id=None):
+    active = "personal"
     if request.POST.get('modify_personal_info'):
         get_personal_info(request, resume_id)
+        active = 'personal'
     elif request.POST.get('modify_experience'):
         get_experience(request, resume_id)
+        active = 'experience'
     elif request.POST.get('modify_education'):
         get_education(request, resume_id)
+        active = 'education'
     elif request.POST.get('modify_project'):
         get_projects(request, resume_id)
+        active = 'project'
     elif request.POST.get('modify_technical_skills'):
         get_technical_skills(request, resume_id)
+        active = 'tech_skills'
     elif request.POST.get('modify_soft_skills'):
         get_soft_skills(request, resume_id)
+        active = 'soft_skills'
     elif request.POST.get('modify_custom'):
         get_custom(request, resume_id)
+        active = 'custom'
 
     content = get_models_data(request, resume_id)
     content['resume'] = resume_id
     content['year'] = year_list()
+    content['active'] = active
 
     content['counter'] = [1, 2, 3]
     if not content.get('tech_skills'):
@@ -578,6 +585,7 @@ def download_template(request, resume, template_name=None):
         template_ = get_template(template_path)
         content = {'download': 1}
         content.update(get_models_data(request, resume))
+        content['qr_code'] = get_rq_code_svg(request.user.get_username())
 
         html = template_.render(content)
         pisa_status = pisa.CreatePDF(html, dest=response)
@@ -593,6 +601,7 @@ def download_template(request, resume, template_name=None):
 def preview(request, resume_id=None, template_name=None):
     content = get_models_data(request, resume_id)
     content['qr_code'] = get_rq_code_svg(request.user.get_username())
+
     if not template_name:
         messages.error(request, 'Invalid Url, or Template Name not provided')
         messages.error(request, 'Showing your Resume in our Default Template!!')
@@ -601,6 +610,7 @@ def preview(request, resume_id=None, template_name=None):
         content['template_name'] = template_name
         content['resume'] = resume_id
         content['STATIC_ROOT'] = settings.STATIC_ROOT
+        content['url'] = request.get_host()
         return render(request, f'resume/html/{template_name}.html', content)
 
 
@@ -656,14 +666,31 @@ def upload(request):
 
 def document_check(request, user=None):
     if user:
-        document_model = Document.objects.filter(user_id=request.user)
+        user = str(base64.b64decode(user))[2:-1]
 
-        content = {}
-        if document_model:
-            for index, obj in enumerate(document_model):
-                with open(obj.doc_img, 'rb') as image:
-                    content[index] = [obj.name, base64.b64encode(image.read())]
-        return render(request, 'view_document.html')
+        try:
+            User = get_user_model()
+            user_id = User.objects.get(email=user).id
+            print('im user = ', User)
+            document_model = Document.objects.filter(user_id=user_id)
+
+            content = {}
+            if document_model:
+                for index, obj in enumerate(document_model):
+                    absolute_path = str(settings.BASE_DIR).replace('\\', '/') + '/media/' + str(obj.doc_img)
+
+                    with open(absolute_path, 'rb') as image:
+                        extention = absolute_path.split('/')[-1].split('.')[-1]
+                        if extention == 'svg':
+                            extention = extention + '+xml'
+                        content[index] = [obj.name, base64.b64encode(image.read()).decode('utf-8'), extention]
+        except ValueError:
+            messages.error(request, 'Invalid Url')
+            return redirect('home')
+        except User.DoesNotExist:
+            messages.error(request, 'Invalid Url')
+            return redirect('home')
+        return render(request, 'html/view_document.html', {'data': content})
     else:
         messages.error(request, 'Invalid Url or Invalid Redirecting')
         return redirect('home')
