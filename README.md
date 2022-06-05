@@ -11,11 +11,13 @@ This will reduce the time and third party interferance to document checking rela
 An easy intervention can be done for the document checking, on the same website<br>
 <hr>
 Key Features:<br>
--> Email Verifiation at login,register,forget-password <br>
-    -> a dynamic link will be sent to set password,login, ..<br>
+<ul>
+    <li><ul>-> Email Verifiation at login,register,forget-password
+    <li>a dynamic link will be sent to set password,login, ..</li></ul></li>
 -> Document preview in base64 format<br>
     -> As the fundamental idea, user upload their document, but while previewing it to reviewer, the system show it in 'src base64' format<br>
-<hr>
+</ul>
+    <hr>
 The website is built on Django framework,<br>
 website gives service to --<br>
 -> create new resume<br>
