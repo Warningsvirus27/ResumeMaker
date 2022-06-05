@@ -12,7 +12,7 @@ An easy intervention can be done for the document checking, on the same website<
 <hr>
 Key Features:<br>
 <ul>
-    <li><ul>-> Email Verifiation at login,register,forget-password
+    <li><ul>Email Verifiation at login,register,forget-password
     <li>a dynamic link will be sent to set password,login, ..</li></ul></li>
 -> Document preview in base64 format<br>
     -> As the fundamental idea, user upload their document, but while previewing it to reviewer, the system show it in 'src base64' format<br>
