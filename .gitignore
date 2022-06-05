@@ -1,0 +1,7 @@
+.venv
+venv
+resume/__pycache__
+ResumeMaker/__pycache__
+login_logout/__pycache__
+login_logout/migrations/__pycache__
+resume/migrations/__pycache__
