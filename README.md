@@ -12,21 +12,28 @@ An easy intervention can be done for the document checking, on the same website<
 <hr>
 Key Features:<br>
 <ul>
-    <li><ul>Email Verifiation at login,register,forget-password
-    <li>a dynamic link will be sent to set password,login, ..</li></ul></li>
--> Document preview in base64 format<br>
-    -> As the fundamental idea, user upload their document, but while previewing it to reviewer, the system show it in 'src base64' format<br>
+    <li>Email Verifiation at login,register,forget-password
+        <ul>
+            <li>a dynamic link will be sent to set password,login, ..</li>
+        </ul>
+    </li>
+    <li>Document preview in base64 format
+    <ul>
+        <li>As the fundamental idea, user upload their document, but while previewing it to reviewer, the system show it in 'src base64' format</li>
+        </ul>
+    </li>
 </ul>
     <hr>
 The website is built on Django framework,<br>
 website gives service to --<br>
--> create new resume<br>
--> add custom field (achievements, certification)<br>
--> download resume<br>
--> modify<br>
--> view<br>
--> upload document<br>
-
+<ul>
+    <li>create new resume</li>
+    <li>add custom field (achievements, certification)</li>
+<li>download resume</li>
+<li>modify</li>
+<li>view</li>
+<li>upload document</li>
+</ul>
 <br>
 The Resume reviewer can click on the hyper-link or scan the qr-code and he/she<br>
 will be redirected to a page where he/she can view the uploaded documents.<br>
